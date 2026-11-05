@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vietnam Real Estate AI - Hệ thống Thẩm định Giá Nhà đất & Trợ lý Đồ thị Neo4j</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons (Local Bundle + CDN Fallback) -->
+    <script src="/static/js/lucide.min.js"></script>
+    <script>
+        if (typeof lucide === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"><\/script>');
+        }
+    </script>
+
+    <link rel="stylesheet" href="/static/css/style.css?v=18">
+</head>
+
+<body class="min-h-full flex flex-col bg-slate-50 text-slate-900 select-none relative">
+
+    <!-- FLOATING TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed top-16 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+
+    <!-- TOPBAR NAVIGATION (RESPONSIVE COMPACT) -->
+    <header class="navbar-glass flex-shrink-0 z-40 sticky top-0">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 h-auto py-2 sm:py-0 sm:h-14 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+
+            <!-- BRAND LOGO & TITLE -->
+            <div class="flex items-center space-x-2.5">
+                <div
+                    class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-sm flex-shrink-0">
+                    <i data-lucide="home" class="w-4 h-4 text-white stroke-[2.5]"></i>
+                </div>
+                <div class="flex items-baseline gap-1.5 truncate">
+                    <span class="text-sm sm:text-base font-extrabold tracking-tight text-slate-900">Vietnam Real Estate AI</span>
+                    <span class="text-[10.5px] text-slate-500 font-medium hidden md:inline truncate">Thẩm định Giá & Trợ lý Đồ thị Neo4j</span>
+                </div>
+            </div>
+
+            <!-- SEGMENTED TABS (SCROLLABLE / FIT ON MOBILE) -->
+            <div class="inline-flex p-1 bg-slate-200/70 border border-slate-300/60 rounded-xl shadow-inner w-full sm:w-auto justify-between sm:justify-start overflow-x-auto">
+                <button id="tab-btn-predict" onclick="switchTab('predict')"
+                    class="nav-tab-active flex-1 sm:flex-initial px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-lg transition flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap">
+                    <i data-lucide="calculator" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+                    <span>Định giá</span><span class="hidden md:inline"> nhà đất</span>
+                </button>
+                <button id="tab-btn-chat" onclick="switchTab('chat')"
+                    class="nav-tab-inactive flex-1 sm:flex-initial px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-lg transition flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap">
+                    <i data-lucide="bot" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+                    <span>Trợ lý AI</span><span class="hidden md:inline"> & Đồ thị</span>
+                </button>
+                <button id="tab-btn-models" onclick="switchTab('models')"
+                    class="nav-tab-inactive flex-1 sm:flex-initial px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-lg transition flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap">
+                    <i data-lucide="bar-chart-3" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+                    <span>Thống kê</span><span class="hidden md:inline"> thị trường</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN APPLICATION CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-3 flex flex-col justify-start lg:justify-center overflow-x-hidden">
+
+        <!-- TAB 1: VALUATION ENGINE & REAL SAMPLE SELECTION -->
+        <div id="tab-content-predict" class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 h-full items-stretch">
+
+            <!-- LEFT COLUMN: FORM & TEST SAMPLES (5 COLS) -->
+            <div class="lg:col-span-5 flex flex-col justify-between space-y-3">
+
+                <!-- SELECT SAMPLE PROPERTIES BLOCK (WITH 4-WAY FILTERS) -->
+                <div class="card-surface p-3 space-y-2 bg-gradient-to-br from-blue-50/60 to-white border-blue-200/70">
+                    <div class="flex items-center justify-between">
+                        <label
+                            class="text-[10.5px] sm:text-[11px] font-extrabold uppercase tracking-wider text-blue-950 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+                            Chọn xem nhà thực tế từ thị trường
+                        </label>
+                        <span id="sample-total-count"
+                            class="text-[10px] sm:text-[10.5px] text-blue-700 font-bold bg-blue-100/70 px-2 py-0.5 rounded-md">
+                            30,229 BĐS phù hợp
+                        </span>
+                    </div>
+
+                    <!-- 4-WAY FILTERS: CITY, DISTRICT, FLOORS, BEDROOM -->
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <select id="sample-city-filter" onchange="onSampleCityChange()"
+                                class="form-input-custom select-custom w-full text-xs">
+                                <option value="">Tất cả tỉnh thành</option>
+                                <option value="Hà Nội">Hà Nội</option>
+                                <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
+                                <option value="Đà Nẵng">Đà Nẵng</option>
+                                <option value="Hưng Yên">Hưng Yên</option>
+                                <option value="Bình Dương">Bình Dương</option>
+                                <option value="Hải Phòng">Hải Phòng</option>
+                                <option value="Đồng Nai">Đồng Nai</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select id="sample-district-filter" onchange="fetchSampleData()"
+                                class="form-input-custom select-custom w-full text-xs">
+                                <option value="">Tất cả quận huyện</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select id="sample-floors-filter" onchange="fetchSampleData()"
+                                class="form-input-custom select-custom w-full text-xs">
+                                <option value="">Tất cả số tầng</option>
+                                <option value="1">1 tầng</option>
+                                <option value="2">2 tầng</option>
+                                <option value="3">3 tầng</option>
+                                <option value="4">4 tầng</option>
+                                <option value="5+">5+ tầng</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select id="sample-bedroom-filter" onchange="fetchSampleData()"
+                                class="form-input-custom select-custom w-full text-xs">
+                                <option value="">Tất cả phòng ngủ</option>
+                                <option value="1">1 phòng ngủ</option>
+                                <option value="2">2 phòng ngủ</option>
+                                <option value="3">3 phòng ngủ</option>
+                                <option value="4">4 phòng ngủ</option>
+                                <option value="5+">5+ phòng ngủ</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- CUSTOM SAMPLE DROPDOWN SELECT -->
+                    <select id="sample-select" onchange="loadSelectedSample()"
+                        class="form-input-custom select-custom w-full text-xs font-semibold text-slate-800 truncate">
+                        <option value="">-- Chọn 1 căn nhà từ thị trường để thẩm định mẫu --</option>
+                    </select>
+                </div>
+
+                <!-- DETAILED INPUT FORM -->
+                <div class="card-surface p-3.5 sm:p-4 flex-1 flex flex-col justify-between space-y-2.5">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                        <h2
+                            class="text-xs font-extrabold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                            <i data-lucide="sliders" class="w-3.5 h-3.5 text-blue-600"></i>
+                            Thông số chi tiết bất động sản
+                        </h2>
+                        <button type="button" onclick="resetForm()"
+                            class="text-[11px] font-semibold text-blue-600 hover:text-blue-800 transition">
+                            Xóa trắng / Đặt lại
+                        </button>
+                    </div>
+
+                    <!-- INLINE ERROR ALERT BOX -->
+                    <div id="form-error-box" class="hidden p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-center gap-2">
+                        <i data-lucide="alert-circle" class="w-4 h-4 text-rose-600 flex-shrink-0"></i>
+                        <span id="form-error-msg" class="leading-tight">--</span>
+                    </div>
+
+                    <!-- VỊ TRÍ (TỈNH/THÀNH & QUẬN/HUYỆN ĐỘNG) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-700 mb-1">Tỉnh / Thành phố <span class="text-rose-500">*</span></label>
+                            <select id="input-city" onchange="updateDistrictOptions()"
+                                class="form-input-custom select-custom w-full text-xs">
+                                <option value="" disabled selected>-- Chọn Tỉnh / Thành --</option>
+                                <option value="Hà Nội">Hà Nội</option>
+                                <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
+                                <option value="Đà Nẵng">Đà Nẵng</option>
+                                <option value="Hưng Yên">Hưng Yên</option>
+                                <option value="Bình Dương">Bình Dương</option>
+                                <option value="Hải Phòng">Hải Phòng</option>
+                                <option value="Đồng Nai">Đồng Nai</option>
+                                <option value="Tỉnh thành khác">Tỉnh thành khác</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-700 mb-1">Quận / Huyện <span class="text-rose-500">*</span></label>
+                            <select id="input-district" class="form-input-custom select-custom w-full text-xs">
+                                <option value="" disabled selected>-- Chọn Quận / Huyện --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- DIỆN TÍCH SÀN (CÓ Ô NHẬP TRỰC TIẾP & SLIDER ĐỒNG BỘ) -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-slate-700 font-bold flex items-center gap-1 text-[11px]">
+                                <i data-lucide="maximize-2" class="w-3 h-3 text-slate-400"></i>
+                                Diện tích sàn (20 - 180m²) <span class="text-rose-500">*</span>
+                            </span>
+                            <div class="flex items-center gap-1">
+                                <input type="number" id="input-area-num" min="20" max="180" step="1"
+                                    placeholder="20 - 180" oninput="syncAreaFromNum(this.value)" onchange="validateAreaInput(this)"
+                                    class="form-input-num w-20">
+                                <span class="text-xs font-semibold text-slate-500">m²</span>
+                            </div>
+                        </div>
+                        <input type="range" id="input-area" min="20" max="180" step="5" value="75"
+                            oninput="syncAreaFromSlider(this.value)" class="w-full">
+                    </div>
+
+                    <!-- MẶT TIỀN & ĐƯỜNG VÀO (CÓ Ô NHẬP TRỰC TIẾP & SLIDER ĐỒNG BỘ) -->
+                    <div class="grid grid-cols-2 gap-2.5 sm:gap-3">
+                        <div class="space-y-1">
+                            <div class="flex justify-between items-center text-[10.5px] sm:text-[11px]">
+                                <span class="text-slate-700 font-semibold flex items-center gap-1 truncate">
+                                    <i data-lucide="move-horizontal" class="w-3 h-3 text-slate-400"></i>
+                                    Mặt tiền (2 - 12m)
+                                </span>
+                                <input type="number" id="input-frontage-num" min="2" max="12" step="0.5"
+                                    placeholder="Mét" oninput="syncFrontageFromNum(this.value)" onchange="validateFrontageInput(this)"
+                                    class="form-input-num w-14 sm:w-16">
+                            </div>
+                            <input type="range" id="input-frontage" min="2" max="12" step="0.5" value="4.0"
+                                oninput="syncFrontageFromSlider(this.value)" class="w-full">
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex justify-between items-center text-[10.5px] sm:text-[11px]">
+                                <span class="text-slate-700 font-semibold flex items-center gap-1 truncate">
+                                    <i data-lucide="navigation" class="w-3 h-3 text-slate-400"></i>
+                                    Đường vào (1.5 - 15m)
+                                </span>
+                                <input type="number" id="input-road-num" min="1.5" max="15" step="0.5" placeholder="Mét"
+                                    oninput="syncRoadFromNum(this.value)" onchange="validateRoadInput(this)" class="form-input-num w-14 sm:w-16">
+                            </div>
+                            <input type="range" id="input-road" min="1.5" max="15" step="0.5" value="4.5"
+                                oninput="syncRoadFromSlider(this.value)" class="w-full">
+                        </div>
+                    </div>
+
+                    <!-- QUY MÔ XÂY DỰNG -->
+                    <div class="grid grid-cols-3 gap-2 sm:gap-2.5">
+                        <div>
+                            <label class="block text-[10.5px] sm:text-[11px] font-bold text-slate-700 mb-1">Số tầng (1-7)</label>
+                            <input type="number" id="input-floors" min="1" max="7" placeholder="1 - 7" onchange="validateFloorsInput(this)"
+                                class="form-input-custom w-full text-center">
+                        </div>
+                        <div>
+                            <label class="block text-[10.5px] sm:text-[11px] font-bold text-slate-700 mb-1">Phòng ngủ (1-8)</label>
+                            <input type="number" id="input-bedroom" min="1" max="8" placeholder="1 - 8" onchange="validateBedroomInput(this)"
+                                class="form-input-custom w-full text-center">
+                        </div>
+                        <div>
+                            <label class="block text-[10.5px] sm:text-[11px] font-bold text-slate-700 mb-1">Phòng WC (1-8)</label>
+                            <input type="number" id="input-bathroom" min="1" max="8" placeholder="1 - 8" onchange="validateBathroomInput(this)"
+                                class="form-input-custom w-full text-center">
+                        </div>
+                    </div>
+
+                    <!-- PHÁP LÝ & HƯỚNG NHÀ -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-700 mb-1">Tình trạng pháp lý</label>
+                            <select id="input-legal" class="form-input-custom select-custom w-full text-xs">
+                                <option value="" disabled selected>-- Chọn pháp lý --</option>
+                                <option value="Have certificate">Đã có Sổ đỏ / Sổ hồng</option>
+                                <option value="Sale contract">Hợp đồng mua bán</option>
+                                <option value="Chưa xác định">Giấy tờ khác / Đang chờ sổ</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-700 mb-1">Hướng nhà</label>
+                            <select id="input-direction" class="form-input-custom select-custom w-full text-xs">
+                                <option value="" disabled selected>-- Chọn hướng nhà --</option>
+                                <option value="Đông - Nam">Đông - Nam</option>
+                                <option value="Tây - Nam">Tây - Nam</option>
+                                <option value="Đông - Bắc">Đông - Bắc</option>
+                                <option value="Tây - Bắc">Tây - Bắc</option>
+                                <option value="Nam">Nam</option>
+                                <option value="Bắc">Bắc</option>
+                                <option value="Đông">Đông</option>
+                                <option value="Tây">Tây</option>
+                                <option value="Chưa xác định">Chưa xác định</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- SUBMIT BUTTON -->
+                    <button type="button" onclick="validateAndPredict()" id="btn-predict"
+                        class="w-full h-11 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 active:scale-[0.99] text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md shadow-blue-500/20 transition flex items-center justify-center gap-2">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-white"></i>
+                        <span>Thực hiện Định giá BĐS</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: STANDBY READY STATE / VALUATION RESULTS (7 COLS) -->
+            <div class="lg:col-span-7 flex flex-col justify-between space-y-3 min-h-[400px]">
+
+                <!-- 1. STANDBY READY STATE (HIỂN THỊ KHI VỪA MỞ TRANG) -->
+                <div id="valuation-standby-state"
+                    class="card-surface p-5 sm:p-6 flex-1 flex flex-col justify-between items-center text-center bg-gradient-to-b from-white via-slate-50/50 to-blue-50/20 border-dashed border-2 border-slate-300/80">
+                    <div class="space-y-3 max-w-lg my-auto py-3">
+                        <div
+                            class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mx-auto shadow-sm">
+                            <i data-lucide="calculator" class="w-7 h-7 sm:w-8 sm:h-8 stroke-[1.8]"></i>
+                        </div>
+                        <h3 class="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight">Sẵn Sàng Thẩm Định
+                            Giá Bất Động Sản</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed max-w-md mx-auto">
+                            Nhập thông số bất động sản ở cột bên trái hoặc chọn 1 tin đăng mẫu từ thị trường, sau đó
+                            nhấn <strong>"Thực hiện Định giá BĐS"</strong> để xem kết quả phân tích.
+                        </p>
+                    </div>
+
+                    <!-- 3 COMPACT FEATURE PILLARS -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 w-full pt-3 sm:pt-4 border-t border-slate-200/70 text-left">
+                        <div class="p-2.5 sm:p-3 rounded-xl bg-white border border-slate-200 shadow-2xs flex sm:flex-col items-center sm:items-start gap-2.5 sm:gap-0">
+                            <div
+                                class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center sm:mb-1.5 flex-shrink-0">
+                                <i data-lucide="cpu" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-[11px] sm:text-[11.5px] text-slate-800">Gradient Boosting ML</div>
+                                <div class="text-[9.5px] sm:text-[10px] text-slate-400">Độ tin cậy R² = 0.548</div>
+                            </div>
+                        </div>
+                        <div class="p-2.5 sm:p-3 rounded-xl bg-white border border-slate-200 shadow-2xs flex sm:flex-col items-center sm:items-start gap-2.5 sm:gap-0">
+                            <div
+                                class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center sm:mb-1.5 flex-shrink-0">
+                                <i data-lucide="layers" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-[11px] sm:text-[11.5px] text-slate-800">Bóc tách 5 cấu phần</div>
+                                <div class="text-[9.5px] sm:text-[10px] text-slate-400">Tỷ trọng & giá trị đóng góp</div>
+                            </div>
+                        </div>
+                        <div class="p-2.5 sm:p-3 rounded-xl bg-white border border-slate-200 shadow-2xs flex sm:flex-col items-center sm:items-start gap-2.5 sm:gap-0">
+                            <div
+                                class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center sm:mb-1.5 flex-shrink-0">
+                                <i data-lucide="database" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-[11px] sm:text-[11.5px] text-slate-800">30,229 Tin đăng</div>
+                                <div class="text-[9.5px] sm:text-[10px] text-slate-400">Kho dữ liệu thị trường 2024</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. VALUATION RESULT CONTAINER (ẨN BAN ĐẦU, HIỆN KHI ĐÃ ĐỊNH GIÁ) -->
+                <div id="valuation-result-container"
+                    class="hidden flex-1 flex flex-col justify-between space-y-3">
+
+                    <!-- PRIMARY VALUATION HERO CARD -->
+                    <div class="valuation-hero-card p-4 sm:p-5 relative overflow-hidden flex flex-col justify-between">
+                        <div class="flex flex-col sm:flex-row justify-between items-start gap-2 sm:gap-0">
+                            <div>
+                                <div
+                                    class="text-[10.5px] sm:text-[11px] uppercase tracking-wider text-emerald-800 font-extrabold flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                                    Kết Quả Định Giá Bất Động Sản
+                                </div>
+                                <div class="mt-1 sm:mt-2 flex items-baseline gap-2 sm:gap-2.5">
+                                    <span id="res-price"
+                                        class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">--</span>
+                                    <span class="text-lg sm:text-2xl font-extrabold text-emerald-700">TỶ VNĐ</span>
+                                </div>
+                                <div id="res-unit-price" class="text-xs font-semibold text-slate-700 mt-0.5 sm:mt-1">
+                                    Đơn giá ước lượng: <span class="text-emerald-700 font-extrabold text-xs sm:text-sm">--</span>
+                                </div>
+                            </div>
+
+                            <!-- ACTUAL VS PREDICTED BADGE -->
+                            <div id="res-comparison-badge"
+                                class="hidden text-left sm:text-right bg-white border border-amber-300 p-2 rounded-lg shadow-sm w-full sm:w-auto">
+                                <div class="text-[9.5px] uppercase text-slate-500 font-bold">Giá thực tế trên tin đăng:
+                                </div>
+                                <div id="res-actual-price" class="text-sm sm:text-base font-black text-amber-700">-- TỶ</div>
+                                <div id="res-error-badge" class="text-[10px] sm:text-[10.5px] font-bold text-emerald-700">--</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VALUATION BREAKDOWN -->
+                    <div class="card-surface p-3.5 sm:p-4 space-y-2.5">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                            <h3
+                                class="text-xs font-extrabold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                                <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-600"></i>
+                                Cơ cấu bóc tách giá trị căn nhà
+                            </h3>
+                            <span class="text-[10.5px] sm:text-[11px] text-slate-400 font-semibold">Tỷ trọng thành phần</span>
+                        </div>
+
+                        <!-- CLEAN VALUATION COMPONENT ROWS -->
+                        <div id="feature-bars" class="space-y-1.5 w-full">
+                            <!-- Dynamic Metric Breakdown Rows -->
+                        </div>
+                    </div>
+
+                    <!-- MARKET CONTEXT & GRAPH CONSULTING CARD -->
+                    <div class="card-surface p-3.5 bg-gradient-to-br from-slate-50 to-blue-50/40 border border-slate-200/90 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-0">
+                        <div class="space-y-0.5 sm:space-y-1">
+                            <div class="text-[10.5px] sm:text-[11px] font-extrabold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                                <i data-lucide="compass" class="w-3.5 h-3.5 text-blue-600"></i>
+                                <span>Phân tích thị trường khu vực</span>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-slate-600">
+                                <div>Khu vực: <span id="insight-location" class="font-bold text-slate-900">--</span></div>
+                                <div class="hidden sm:block w-1 h-1 rounded-full bg-slate-300"></div>
+                                <div>Phân khúc: <span id="insight-tier" class="font-bold text-emerald-700">--</span></div>
+                            </div>
+                        </div>
+                        <button onclick="askAiAboutArea()"
+                            class="w-full sm:w-auto px-3.5 py-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold text-xs rounded-xl shadow-sm transition whitespace-nowrap flex items-center justify-center gap-1.5">
+                            <span>Hỏi Trợ lý AI khu vực này</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: NEO4J KNOWLEDGE GRAPH CHATBOT -->
+        <div id="tab-content-chat"
+            class="hidden card-surface p-3.5 sm:p-5 flex-1 flex flex-col justify-between space-y-3 min-h-[500px] h-[calc(100vh-130px)] lg:h-full overflow-hidden">
+            <div class="border-b border-slate-200/80 pb-2.5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-black flex-shrink-0">
+                        <i data-lucide="bot" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xs sm:text-sm font-extrabold text-slate-900">
+                            Trợ Lý Đồ Thị Tri Thức Neo4j
+                        </h2>
+                        <p class="text-[10px] sm:text-[11px] text-slate-500">Truy vấn đồ thị tri thức BĐS Việt Nam 2024 (30,229 bản ghi)</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 self-end sm:self-auto">
+                    <button onclick="toggleApiKeySettings()"
+                        class="text-[10.5px] sm:text-[11px] px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold border border-slate-300 transition flex items-center gap-1 shadow-sm">
+                        <i data-lucide="settings" class="w-3 h-3"></i>
+                        <span>Cấu hình API Key</span>
+                    </button>
+                    <span id="ai-mode-badge"
+                        class="text-[10px] sm:text-[11px] px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-extrabold border border-emerald-200">
+                        Đồ thị Neo4j: Sẵn sàng
+                    </span>
+                </div>
+            </div>
+
+            <!-- API KEY CONFIGURATION PANEL -->
+            <div id="api-key-panel" class="hidden p-3 rounded-xl bg-slate-100/90 border border-slate-200 space-y-2">
+                <div class="flex justify-between items-center">
+                    <div
+                        class="text-xs font-extrabold text-slate-800 uppercase tracking-wide flex items-center gap-1.5">
+                        <i data-lucide="key" class="w-3.5 h-3.5 text-blue-600"></i>
+                        Khóa API Tùy chọn (OpenAI / Google Gemini):
+                    </div>
+                    <span class="text-[10.5px] text-slate-500 hidden sm:inline">Lưu an toàn trong Local Storage</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-2">
+                    <div class="sm:col-span-4">
+                        <select id="api-provider" class="form-input-custom select-custom w-full text-xs">
+                            <option value="openai">OpenAI (ChatGPT / GPT-4o-mini)</option>
+                            <option value="gemini">Google Gemini (Gemini 1.5 Flash)</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-6">
+                        <input type="password" id="api-key-input" placeholder="Nhập API Key (sk-... hoặc AIza...)"
+                            class="form-input-custom w-full text-xs">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <button onclick="saveApiKey()"
+                            class="w-full h-[38px] bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-lg shadow-sm transition">
+                            Lưu Key
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK PROMPT CHIPS (HORIZONTAL SCROLL ON MOBILE) -->
+            <div class="flex flex-nowrap sm:flex-wrap gap-1.5 overflow-x-auto pb-1 custom-scrollbar -mx-1 px-1">
+                <button onclick="sendQuickPrompt('Tìm nhà tại Cầu Giấy dưới 8.5 tỷ có sổ đỏ')"
+                    class="prompt-chip">
+                    <i data-lucide="search" class="w-3 h-3 text-blue-600"></i>
+                    <span>Tìm nhà Cầu Giấy dưới 8.5 tỷ</span>
+                </button>
+                <button onclick="sendQuickPrompt('Mặt bằng giá BĐS tại Quận 1, TP. Hồ Chí Minh')" class="prompt-chip">
+                    <i data-lucide="trending-up" class="w-3 h-3 text-emerald-600"></i>
+                    <span>Mặt bằng giá Quận 1, TP.HCM</span>
+                </button>
+                <button onclick="sendQuickPrompt('So sánh giá nhà giữa Cầu Giấy và Đống Đa')" class="prompt-chip">
+                    <i data-lucide="scale" class="w-3 h-3 text-amber-600"></i>
+                    <span>So sánh Cầu Giấy vs Đống Đa</span>
+                </button>
+                <button onclick="sendQuickPrompt('Tìm nhà hướng Đông Nam diện tích trên 80m2 tại Gò Vấp')"
+                    class="prompt-chip">
+                    <i data-lucide="compass" class="w-3 h-3 text-indigo-600"></i>
+                    <span>Nhà hướng Đông Nam tại Gò Vấp</span>
+                </button>
+                <button onclick="sendQuickPrompt('Tư vấn kinh nghiệm đàm phán giá khi mua nhà đất')"
+                    class="prompt-chip">
+                    <i data-lucide="message-square" class="w-3 h-3 text-purple-600"></i>
+                    <span>Kinh nghiệm đàm phán giá nhà</span>
+                </button>
+            </div>
+
+            <!-- CHAT MESSAGES SCROLL AREA -->
+            <div id="chat-messages"
+                class="flex-1 overflow-y-auto bg-slate-50 p-3 sm:p-4 rounded-xl border border-slate-200 space-y-3 custom-scrollbar">
+                <!-- INTRO BOT MESSAGE -->
+                <div class="flex justify-start">
+                    <div class="card-surface p-3 sm:p-3.5 max-w-[92%] sm:max-w-[85%] text-xs leading-relaxed shadow-sm space-y-1.5">
+                        <div class="font-extrabold text-slate-900 flex items-center gap-1.5">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-600"></i>
+                            Xin chào! Tôi là Trợ lý Đồ thị Tri thức về Bất động sản Việt Nam.
+                        </div>
+                        <p class="text-slate-700">
+                            Tôi có thể giúp bạn tra cứu giá cả, so sánh khu vực, tìm kiếm các bất động sản theo ngân
+                            sách từ cơ sở dữ liệu hơn **30,229 tin đăng thị trường thực tế**.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHAT INPUT BAR -->
+            <div class="flex gap-2 pt-1">
+                <input type="text" id="chat-input"
+                    placeholder="Ví dụ: Tìm nhà tại Cầu Giấy dưới 8 tỷ có sổ hồng..."
+                    class="form-input-custom flex-1 text-xs shadow-sm">
+                <button onclick="sendChatMessage()"
+                    class="px-4 sm:px-5 h-[38px] bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-lg shadow-sm transition flex items-center gap-1.5 flex-shrink-0">
+                    <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                    <span class="hidden sm:inline">Gửi</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- TAB 3: MODEL BENCHMARK TABLE & MARKET OVERVIEW -->
+        <div id="tab-content-models"
+            class="hidden card-surface p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3 sm:space-y-4 h-auto lg:h-full overflow-hidden">
+            <div class="border-b border-slate-200/80 pb-2.5 flex justify-between items-center">
+                <div>
+                    <h2 class="text-xs sm:text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
+                        <i data-lucide="table" class="w-4 h-4 text-blue-600"></i>
+                        Bảng Đánh Giá Đối Chuẩn 5 Mô Hình Học Máy Trên 5 Độ Đo
+                    </h2>
+                    <p class="text-[10px] sm:text-[11px] text-slate-500 mt-0.5">Tập dữ liệu kiểm thử độc lập: 6,034 mẫu từ Kaggle Vietnam Housing 2024</p>
+                </div>
+            </div>
+
+            <!-- METRICS TABLE (SCROLLABLE ON SMALL SCREENS) -->
+            <div class="overflow-x-auto flex-1 custom-scrollbar">
+                <table class="w-full text-left text-xs border border-slate-200 rounded-xl overflow-hidden shadow-sm min-w-[650px]">
+                    <thead class="bg-slate-100 text-slate-700 font-extrabold uppercase border-b border-slate-200 text-[11px]">
+                        <tr>
+                            <th class="p-2.5 sm:p-3">Mô hình</th>
+                            <th class="p-2.5 sm:p-3">MAE (Tỷ)</th>
+                            <th class="p-2.5 sm:p-3">MSE</th>
+                            <th class="p-2.5 sm:p-3">RMSE (Tỷ)</th>
+                            <th class="p-2.5 sm:p-3 text-blue-700">R² Score</th>
+                            <th class="p-2.5 sm:p-3 text-emerald-700">MAPE (%)</th>
+                            <th class="p-2.5 sm:p-3">Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody id="metrics-tbody" class="divide-y divide-slate-200 text-slate-800 bg-white font-medium text-[11.5px]">
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2.5 sm:p-3 font-bold">Baseline (Mean Dummy)</td>
+                            <td class="p-2.5 sm:p-3">1.8093</td>
+                            <td class="p-2.5 sm:p-3">4.7483</td>
+                            <td class="p-2.5 sm:p-3">2.1791</td>
+                            <td class="p-2.5 sm:p-3 font-bold text-slate-500">-0.0004</td>
+                            <td class="p-2.5 sm:p-3">42.61%</td>
+                            <td class="p-2.5 sm:p-3 text-slate-500">Mô hình cơ sở đối chuẩn</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2.5 sm:p-3 font-bold">Linear Regression</td>
+                            <td class="p-2.5 sm:p-3">1.4033</td>
+                            <td class="p-2.5 sm:p-3">3.1185</td>
+                            <td class="p-2.5 sm:p-3">1.7659</td>
+                            <td class="p-2.5 sm:p-3 font-bold text-blue-600">0.3430</td>
+                            <td class="p-2.5 sm:p-3">30.40%</td>
+                            <td class="p-2.5 sm:p-3 text-slate-600">Hồi quy tuyến tính đa biến</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2.5 sm:p-3 font-bold">Ridge Regression (L2)</td>
+                            <td class="p-2.5 sm:p-3">1.4034</td>
+                            <td class="p-2.5 sm:p-3">3.1185</td>
+                            <td class="p-2.5 sm:p-3">1.7659</td>
+                            <td class="p-2.5 sm:p-3 font-bold text-blue-600">0.3430</td>
+                            <td class="p-2.5 sm:p-3">30.40%</td>
+                            <td class="p-2.5 sm:p-3 text-slate-600">Chính quy hóa Tikhonov L2</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2.5 sm:p-3 font-bold">Decision Tree Regressor</td>
+                            <td class="p-2.5 sm:p-3">1.2336</td>
+                            <td class="p-2.5 sm:p-3">2.6491</td>
+                            <td class="p-2.5 sm:p-3">1.6276</td>
+                            <td class="p-2.5 sm:p-3 font-bold text-blue-600">0.4419</td>
+                            <td class="p-2.5 sm:p-3">26.00%</td>
+                            <td class="p-2.5 sm:p-3 text-slate-600">Cây quyết định hồi quy</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2.5 sm:p-3 font-bold text-emerald-800">Random Forest Regressor</td>
+                            <td class="p-2.5 sm:p-3 font-extrabold text-emerald-700">1.1153</td>
+                            <td class="p-2.5 sm:p-3">2.1441</td>
+                            <td class="p-2.5 sm:p-3 font-extrabold text-emerald-700">1.4643</td>
+                            <td class="p-2.5 sm:p-3 font-extrabold text-emerald-700">0.5483</td>
+                            <td class="p-2.5 sm:p-3 font-extrabold text-emerald-700">23.67%</td>
+                            <td class="p-2.5 sm:p-3 text-emerald-700 font-semibold">Ensemble Bagging 100 cây</td>
+                        </tr>
+                        <tr class="bg-emerald-50/70 border-l-4 border-emerald-600">
+                            <td class="p-2.5 sm:p-3 font-black text-emerald-950">Gradient Boosting (Triển khai)</td>
+                            <td class="p-2.5 sm:p-3 font-bold">1.1516</td>
+                            <td class="p-2.5 sm:p-3">2.2131</td>
+                            <td class="p-2.5 sm:p-3 font-bold">1.4877</td>
+                            <td class="p-2.5 sm:p-3 font-black text-emerald-800">0.5338</td>
+                            <td class="p-2.5 sm:p-3 font-black text-emerald-800">24.71%</td>
+                            <td class="p-2.5 sm:p-3 text-emerald-900 font-bold">Mô hình sản xuất chính thức</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-slate-50 p-2.5 sm:p-3 rounded-lg border border-slate-200 text-[10.5px] sm:text-[11px] text-slate-600">
+                <strong>Phương pháp đánh giá:</strong> Mô hình được huấn luyện trên 80% dữ liệu (24,134 mẫu) và đánh giá
+                độc lập trên 20% dữ liệu (6,034 mẫu) của tập dữ liệu thị trường nhà ở Việt Nam 2024.
+            </div>
+        </div>
+
+    </main>
+
+    <!-- EXTERNAL CLIENT LOGIC SCRIPT (CACHE-BUSTED) -->
+    <script src="/static/js/app.js?v=19"></script>
+</body>
+
+</html>

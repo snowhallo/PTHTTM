@@ -1,0 +1,12 @@
+{
+  "dataset_total_samples": 100000,
+  "sample_size_evaluated": 10000,
+  "train_nodes": 8000,
+  "test_nodes": 2000,
+  "pa1_baseline_k": 10,
+  "pa1_total_edges": 80000,
+  "pa1_homophily_ratio": 0.9336,
+  "pa2_clinically_weighted_k": 8,
+  "pa2_total_edges": 64000,
+  "pa2_homophily_ratio": 0.9411
+}

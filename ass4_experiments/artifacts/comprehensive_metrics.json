@@ -1,0 +1,61 @@
+{
+  "MNIST": {
+    "Basic CNN (PyTorch)": {
+      "Accuracy": 0.985,
+      "Params": 20490,
+      "Time": 53.52
+    },
+    "Improved CNN (PyTorch)": {
+      "Accuracy": 0.9867,
+      "Params": 20586,
+      "Time": 69.75
+    },
+    "TensorFlow Keras": {
+      "Accuracy": 0.9837,
+      "Params": 20490,
+      "Time": 58.87
+    }
+  },
+  "Fashion-MNIST": {
+    "Accuracy": 0.9013,
+    "Time": 1.35
+  },
+  "CIFAR-10": {
+    "Accuracy": 0.6477,
+    "Time": 185.4
+  },
+  "Diabetes": {
+    "PyTorch": {
+      "Accuracy": 0.6983,
+      "Time": 0.5
+    },
+    "TensorFlow": {
+      "Accuracy": 0.8276,
+      "Time": 1.18
+    }
+  },
+  "House Price": {
+    "PyTorch": {
+      "MAE": 1.61,
+      "RMSE": 1.9684,
+      "R2": 0.1905,
+      "Time": 0.03
+    },
+    "TensorFlow": {
+      "MAE": 1.6016,
+      "RMSE": 1.9611,
+      "R2": 0.1965,
+      "Time": 18.88
+    }
+  },
+  "Comments": {
+    "PyTorch": {
+      "Accuracy": 0.8805,
+      "Time": 18.95
+    },
+    "TensorFlow": {
+      "Accuracy": 0.8717,
+      "Time": 21.66
+    }
+  }
+}

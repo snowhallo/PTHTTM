@@ -1,0 +1,447 @@
+Canva editor
+Changes will be saved automatically
+
+Skip navigation
+
+Skip to main content
+
+File
+Viewing
+Share
+Sign up
+
+01  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+01 / 44
+
+BÁO CÁO NGHIÊN CỨU  /  NHÓM 4 THÀNH VIÊN
+
+DEEP GRAPH
+
+LEARNING
+
+Ứng dụng dự đoán bệnh tiểu đường
+
+từ dữ liệu bệnh nhân
+
+GRAPH NEURAL NETWORKS
+
+PATIENT SIMILARITY NETWORK
+
+GIẢNG VIÊN: ....................    •    NHÓM THỰC HIỆN: ....................
+
+BÁO CÁO NGHIÊN CỨU / NHÓM 4 THÀNH VIÊN
+
+DEEP GRAPH
+
+LEARNING
+
+Ứng dụng dự đoán bệnh tiểu đường
+
+từ dữ liệu bệnh nhân
+
+GRAPH NEURAL NETWORKS
+
+PATIENT SIMILARITY NETWORK
+
+GIẢNG VIÊN: .................... • NHÓM THỰC HIỆN: ....................
+
+DEEP GRAPH LEARNING • DIABETES PREDICTION
+
+01 / 04
+
+01 / 44
+
+Page Thumbnails
+
+Skip to end of page thumbnails
+
+1
+
+-
+
+2
+
+-
+
+3
+
+-
+
+4
+
+-
+
+5
+
+-
+
+6
+
+-
+
+7
+
+-
+
+8
+
+-
+
+9
+
+-
+
+10
+
+-
+
+01  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+11 / 44
+
+THÀNH VIÊN 1  /  NỀN TẢNG ĐỒ THỊ
+
+Mạng tương đồng bệnh nhân
+
+Ví dụ xuyên suốt đề tài: Patient Similarity Network
+
+Một node tương ứng một hồ sơ bệnh nhân
+
+KNN tạo kết nối theo độ gần của vector đặc trưng
+
+Đầu ra phục vụ các lớp Message Passing
+
+V = bệnh nhân   •   E = tương đồng
+
+CHUYỂN TIẾP → BIỂU DIỄN & GNN
+
+11
+
+-
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+12 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Graph Representation Learning
+
+Học vector mang thông tin từ đặc trưng và cấu trúc
+
+Đầu vào: ma trận X và các cạnh E
+
+Node embedding hᵢ là vector do mạng học được
+
+Embedding không đồng nghĩa với chỉ số y khoa gốc
+
+INPUT
+
+→
+
+LAYER 1
+
+→
+
+LAYER 2
+
+→
+
+OUTPUT
+
+12
+
+-
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+13 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Ba cấp độ biểu diễn
+
+Node – Edge – Graph embedding
+
+✦
+
+NODE / EDGE EMBEDDING
+
+Node: biểu diễn từng bệnh nhân
+
+
+
+
+Edge: biểu diễn quan hệ hoặc cặp node
+
+✦
+
+GRAPH EMBEDDING
+
+Tóm tắt toàn đồ thị bằng pooling / readout
+
+
+
+
+Đề tài chủ yếu cần node embedding
+
+13
+
+-
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+14 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Ba dạng bài toán trên đồ thị
+
+Phân loại node là tác vụ của nhóm
+
+✦
+
+NODE CLASSIFICATION
+
+Dự đoán nhãn diabetes của từng bệnh nhân
+
+
+
+
+Sử dụng embedding hᵢ của node
+
+✦
+
+LINK / GRAPH TASKS
+
+Link prediction: dự đoán cạnh
+
+
+
+
+Graph classification: dự đoán nhãn toàn đồ thị
+
+14
+
+-
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+15 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Tại sao không chỉ dùng MLP?
+
+MLP học đặc trưng riêng; GNN có thể tổng hợp thông tin láng giềng
+
+MLP xử lý trực tiếp feature vector của node
+
+GNN trao đổi thông tin qua các liên kết đồ thị
+
+Sự hữu ích phụ thuộc chất lượng các cạnh đã tạo
+
+TABULAR
+
+GRAPH
+
+15
+
+-
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+16 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Message Passing — 3 bước
+
+Cơ chế trung tâm của nhiều kiến trúc GNN
+
+1
+
+MESSAGE
+
+›
+
+2
+
+AGGREGATE
+
+›
+
+3
+
+UPDATE
+
+HÀNG XÓM → THÔNG ĐIỆP → EMBEDDING MỚI
+
+16
+
+-
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+17 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Các phép tổng hợp hàng xóm
+
+Aggregation phải không phụ thuộc thứ tự node
+
+SUM: giữ thông tin về số lượng láng giềng
+
+MEAN / MAX: trung bình hoặc giữ đặc trưng trội
+
+ATTENTION: trọng số đóng góp được học
+
+17
+
+-
+
+18
+
+-
+
+19
+
+-
+
+20
+
+-
+
+21
+
+-
+
+22
+
+-
+
+23
+
+-
+
+24
+
+-
+
+25
+
+-
+
+26
+
+-
+
+27
+
+-
+
+28
+
+-
+
+29
+
+-
+
+30
+
+-
+
+31
+
+-
+
+32
+
+-
+
+33
+
+-
+
+34
+
+-
+
+35
+
+-
+
+36
+
+-
+
+37
+
+-
+
+38
+
+-
+
+39
+
+-
+
+40
+
+-
+
+41
+
+-
+
+42
+
+-
+
+43
+
+-
+
+44
+
+-
+
+Back to start of page thumbnails
+
+Duration
+81%
+Pages
+ 1 / 44
+The main navigation contains buttons for document level options. To switch between buttons, use the left and right keys and to activate, press Enter. To skip to the canvas, press “Ctrl+F2”.
+Canvas
+The canvas is where your design is. To navigate into the page, press Enter. To navigate into groups or elements on the page, press Enter again. Press tab to move to the next page, group, or element. To operate the toolbar, use the “Ctrl+F1” key. If an element is selected, move it using the arrow keys; rotate using the “,” key and “.” key; and resize using the arrow keys with the “Ctrl” key. All of these keys can be modified with the “Shift” key to increase increment.
+The side panel is where you can apply templates or add elements. To skip to the canvas, press “Ctrl+F2”.
+Use left and right arrow keys to select pages. Use Home and End to jump to the first or last page.
+Zoom
+Hide page thumbnails
+Go to page
+Grid view
+Present full screen
+Help
+Share
+This button opens the menu with all the options to share and print your design.

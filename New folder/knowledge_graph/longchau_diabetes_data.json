@@ -1,0 +1,441 @@
+{
+  "graph_metadata": {
+    "title": "Diabetes Medical & Pharmaceutical Knowledge Graph",
+    "source": "Nhà thuốc Long Châu & Bộ Y tế Việt Nam & Giáo trình Hệ thống Thông minh",
+    "version": "2.0",
+    "total_nodes": 45,
+    "total_edges": 82
+  },
+  "node_types": [
+    {"type": "Disease", "color": "#0284c7", "label": "Bệnh học"},
+    {"type": "Symptom", "color": "#f97316", "label": "Triệu chứng"},
+    {"type": "RiskFactor", "color": "#ef4444", "label": "Yếu tố nguy cơ"},
+    {"type": "Complication", "color": "#8b5cf6", "label": "Biến chứng"},
+    {"type": "DrugClass", "color": "#0d9488", "label": "Nhóm dược lý"},
+    {"type": "Medicine", "color": "#10b981", "label": "Thuốc & Biệt dược Long Châu"},
+    {"type": "DietLifestyle", "color": "#eab308", "label": "Dinh dưỡng & Lối sống"}
+  ],
+  "nodes": [
+    {
+      "id": "D01",
+      "label": "Đái tháo đường Type 1",
+      "type": "Disease",
+      "summary": "Bệnh tự miễn làm phá hủy tế bào Beta tuyến tụy, dẫn đến thiếu hụt Insulin tuyệt đối. Thường khởi phát ở người trẻ tuổi.",
+      "diagnostic_criteria": "Đường huyết đói >= 126 mg/dL hoặc HbA1c >= 6.5%, kèm kháng thể kháng đảo tụy (anti-GAD).",
+      "longchau_url": "https://nhathuoclongchau.com.vn/benh/dai-thao-duong-tuyp-1-496.html"
+    },
+    {
+      "id": "D02",
+      "label": "Đái tháo đường Type 2",
+      "type": "Disease",
+      "summary": "Chiếm 90-95% ca bệnh, đặc trưng bởi tình trạng đề kháng Insulin kết hợp suy giảm tiết Insulin tương đối. Liên quan mật thiết đến thừa cân, béo phì.",
+      "diagnostic_criteria": "Đường huyết lúc đói >= 126 mg/dL, Đường huyết sau ăn 2h >= 200 mg/dL hoặc HbA1c >= 6.5%.",
+      "longchau_url": "https://nhathuoclongchau.com.vn/benh/dai-thao-duong-tuyp-2-497.html"
+    },
+    {
+      "id": "D03",
+      "label": "Đái tháo đường Thai kỳ",
+      "type": "Disease",
+      "summary": "Tình trạng tăng đường huyết lần đầu được phát hiện trong thời gian mang thai (thường từ tuần thứ 24-28).",
+      "diagnostic_criteria": "Nghiệm pháp dung nạp 75g Glucose (OGTT): lúc đói >= 92 mg/dL, sau 1h >= 180 mg/dL, sau 2h >= 153 mg/dL.",
+      "longchau_url": "https://nhathuoclongchau.com.vn/benh/dai-thao-duong-thai-ky-500.html"
+    },
+    {
+      "id": "D04",
+      "label": "Tiền đái tháo đường",
+      "type": "Disease",
+      "summary": "Giai đoạn đường huyết cao hơn bình thường nhưng chưa đạt ngưỡng chẩn đoán đái tháo đường. Có thể phục hồi nếu thay đổi lối sống sớm.",
+      "diagnostic_criteria": "Đường huyết đói: 100 - 125 mg/dL hoặc HbA1c: 5.7 - 6.4%.",
+      "longchau_url": "https://nhathuoclongchau.com.vn/bai-viet/tien-dai-thao-duong-la-gi.html"
+    },
+    {
+      "id": "S01",
+      "label": "Khát nước nhiều (Polydipsia)",
+      "type": "Symptom",
+      "summary": "Cảm giác khát nước liên tục, khô họng do đường huyết cao kéo nước từ tế bào vào lòng mạch và thải qua thận."
+    },
+    {
+      "id": "S02",
+      "label": "Tiểu nhiều lần (Polyuria)",
+      "type": "Symptom",
+      "summary": "Đi tiểu liên tục, lượng nước tiểu nhiều, đặc biệt hay thức dậy đi tiểu nhiều lần vào ban đêm."
+    },
+    {
+      "id": "S03",
+      "label": "Sụt cân nhanh không rõ nguyên do",
+      "type": "Symptom",
+      "summary": "Cơ thể không sử dụng được Glucose làm năng lượng nên phải phân giải mô mỡ và cơ bắp để bù đắp."
+    },
+    {
+      "id": "S04",
+      "label": "Ăn nhiều nhưng mau đói (Polyphagia)",
+      "type": "Symptom",
+      "summary": "Tế bào thiếu năng lượng kích thích trung tâm thèm ăn ở não bộ."
+    },
+    {
+      "id": "S05",
+      "label": "Nhìn mờ, giảm thị lực",
+      "type": "Symptom",
+      "summary": "Đường huyết tăng cao làm thay đổi áp lực thẩm thấu dịch thể trong thể thủy tinh của mắt."
+    },
+    {
+      "id": "S06",
+      "label": "Vết thương lâu lành",
+      "type": "Symptom",
+      "summary": "Tuần hoàn máu ngoại vi kém và suy giảm chức năng bạch cầu do môi trường đường huyết cao."
+    },
+    {
+      "id": "S07",
+      "label": "Tê bì châm chích đầu chi",
+      "type": "Symptom",
+      "summary": "Cảm giác tê rần như kiến bò ở bàn chân hoặc bàn tay do tổn thương dây thần kinh cảm giác."
+    },
+    {
+      "id": "S08",
+      "label": "Mệt mỏi kiệt sức kéo dài",
+      "type": "Symptom",
+      "summary": "Thiếu hụt năng lượng tế bào do Glucose không được chuyển hóa hiệu quả."
+    },
+    {
+      "id": "R01",
+      "label": "Chỉ số Glucose cao (>= 126 mg/dL)",
+      "type": "RiskFactor",
+      "summary": "Chỉ số đường huyết lúc đói là tiêu chí chẩn đoán và yếu tố rủi ro trực tiếp hàng đầu (tương quan 0.493)."
+    },
+    {
+      "id": "R02",
+      "label": "Thừa cân béo phì (BMI >= 25)",
+      "type": "RiskFactor",
+      "summary": "Mô mỡ tích tụ quá mức gây phóng thích axit béo tự do và cytokine tiền viêm, gây kháng Insulin (tương quan 0.312)."
+    },
+    {
+      "id": "R03",
+      "label": "Tuổi cao (>= 45 tuổi)",
+      "type": "RiskFactor",
+      "summary": "Chức năng tế bào Beta đảo tụy suy giảm tự nhiên theo độ tuổi (tương quan 0.238)."
+    },
+    {
+      "id": "R04",
+      "label": "Tiền sử gia đình mắc tiểu đường",
+      "type": "RiskFactor",
+      "summary": "Yếu tố di truyền làm tăng 2-6 lần nguy cơ mắc bệnh nếu có bố mẹ hoặc anh chị em ruột bị tiểu đường."
+    },
+    {
+      "id": "R05",
+      "label": "Tăng huyết áp (>= 140/90 mmHg)",
+      "type": "RiskFactor",
+      "summary": "Gia tăng áp lực lên hệ thống thành mạch và tim mạch, thường đi kèm trong hội chứng chuyển hóa."
+    },
+    {
+      "id": "R06",
+      "label": "Lối sống tĩnh tại, ít vận động",
+      "type": "RiskFactor",
+      "summary": "Giảm độ nhạy Insulin của cơ bắp và giảm tiêu thụ năng lượng Glucose dự trữ."
+    },
+    {
+      "id": "C01",
+      "label": "Bệnh thận đái tháo đường (Diabetic Nephropathy)",
+      "type": "Complication",
+      "summary": "Tổn thương màng lọc cầu thận dẫn đến rò rỉ đạm vào nước tiểu (Microalbumin niệu) và suy thận mạn giai đoạn cuối.",
+      "longchau_url": "https://nhathuoclongchau.com.vn/benh/benh-than-do-dai-thao-duong-502.html"
+    },
+    {
+      "id": "C02",
+      "label": "Bệnh võng mạc đái tháo đường (Diabetic Retinopathy)",
+      "type": "Complication",
+      "summary": "Vi mạch võng mạc bị phình giãn, xuất huyết và phù hoàng điểm, có thể gây mù lòa vĩnh viễn.",
+      "longchau_url": "https://nhathuoclongchau.com.vn/benh/benh-vong-mac-dai-thao-duong-503.html"
+    },
+    {
+      "id": "C03",
+      "label": "Biến chứng Tim mạch & Đột quỵ",
+      "type": "Complication",
+      "summary": "Xơ vữa động mạch vành, nhồi máu cơ tim, tai biến mạch máu não (nguyên nhân gây tử vong hàng đầu ở bệnh nhân tiểu đường).",
+      "longchau_url": "https://nhathuoclongchau.com.vn/bai-viet/bien-chung-tim-mach-o-benh-nhan-tieu-duong.html"
+    },
+    {
+      "id": "C04",
+      "label": "Bàn chân đái tháo đường & Nguy cơ đoạn chi",
+      "type": "Complication",
+      "summary": "Kết hợp giữa mất cảm giác thần kinh và tắc hẹp mạch máu nuôi khiến vết loét nhanh hoại tử, nhiễm trùng sâu.",
+      "longchau_url": "https://nhathuoclongchau.com.vn/bai-viet/cham-soc-ban-chan-dai-thao-duong.html"
+    },
+    {
+      "id": "C05",
+      "label": "Bệnh thần kinh ngoại biên",
+      "type": "Complication",
+      "summary": "Mất cảm giác đau nhiệt ở chi dưới khiến bệnh nhân không phát hiện kịp thời các chấn thương."
+    },
+    {
+      "id": "DC01",
+      "label": "Nhóm Biguanide (Metformin)",
+      "type": "DrugClass",
+      "summary": "Ức chế sản xuất Glucose ở gan, tăng nhạy cảm Insulin ở cơ bắp, là lựa chọn điều trị hàng đầu (First-line) cho Type 2."
+    },
+    {
+      "id": "DC02",
+      "label": "Nhóm Sulfonylurea (Gliclazide, Glimepiride)",
+      "type": "DrugClass",
+      "summary": "Kích thích tế bào Beta tuyến tụy tăng cường tiết Insulin vào máu."
+    },
+    {
+      "id": "DC03",
+      "label": "Nhóm ức chế DPP-4 (Gliptin)",
+      "type": "DrugClass",
+      "summary": "Ngăn chặn enzyme phân hủy hormone GLP-1, giúp tăng tiết Insulin phụ thuộc nồng độ Glucose và ức chế Glucagon."
+    },
+    {
+      "id": "DC04",
+      "label": "Nhóm ức chế SGLT-2 (Gliflozin)",
+      "type": "DrugClass",
+      "summary": "Ức chế tái hấp thu đường tại ống thận gần, đào thải lượng đường thừa qua nước tiểu. Có lợi ích bảo vệ thận và tim mạch."
+    },
+    {
+      "id": "DC05",
+      "label": "Nhóm Insulin Ngoại sinh",
+      "type": "DrugClass",
+      "summary": "Bổ sung trực tiếp Insulin cho cơ thể, bắt buộc cho Type 1 và dùng cho Type 2 khi các thuốc uống không đạt mục tiêu kiểm soát."
+    },
+    {
+      "id": "M01",
+      "label": "Glucophage 500mg / 850mg / 1000mg",
+      "type": "Medicine",
+      "active_ingredient": "Metformin Hydrochloride",
+      "manufacturer": "Merck Sante (Pháp)",
+      "dosage": "Uống 500mg - 2000mg/ngày chia 2-3 lần trong hoặc sau bữa ăn.",
+      "indications": "Điều trị đái tháo đường Type 2 đầu tay, đặc biệt ở bệnh nhân thừa cân.",
+      "price_ref": "Khoảng 1.200đ - 2.500đ / viên tại Nhà thuốc Long Châu",
+      "longchau_url": "https://nhathuoclongchau.com.vn/thuoc/glucophage-500mg-merck-5x20-1815.html"
+    },
+    {
+      "id": "M02",
+      "label": "Glucophage XR 500mg / 750mg / 1000mg",
+      "type": "Medicine",
+      "active_ingredient": "Metformin Hydrochloride (Phóng thích kéo dài)",
+      "manufacturer": "Merck Healthcare (Pháp)",
+      "dosage": "Uống 1 lần duy nhất vào bữa tối (500mg - 2000mg).",
+      "indications": "Hạn chế tối đa kích ứng dạ dày - ruột so với dạng thường.",
+      "price_ref": "Khoảng 3.200đ - 5.500đ / viên tại Nhà thuốc Long Châu",
+      "longchau_url": "https://nhathuoclongchau.com.vn/thuoc/glucophage-xr-500mg-merck-2x15-1818.html"
+    },
+    {
+      "id": "M03",
+      "label": "Diamicron MR 30mg / 60mg",
+      "type": "Medicine",
+      "active_ingredient": "Gliclazide",
+      "manufacturer": "Les Laboratoires Servier (Pháp)",
+      "dosage": "1 - 4 viên 30mg (hoặc 1-2 viên 60mg) uống vào bữa sáng.",
+      "indications": "Kích thích tiết Insulin sinh lý cho Type 2, giảm thiểu nguy cơ hạ đường huyết.",
+      "price_ref": "Khoảng 3.500đ - 6.200đ / viên tại Nhà thuốc Long Châu",
+      "longchau_url": "https://nhathuoclongchau.com.vn/thuoc/diamicron-mr-30mg-servier-2x30-1810.html"
+    },
+    {
+      "id": "M04",
+      "label": "Januvia 50mg / 100mg",
+      "type": "Medicine",
+      "active_ingredient": "Sitagliptin Phosphate Monohydrate",
+      "manufacturer": "MSD (Mỹ / Ý)",
+      "dosage": "100mg ngày 1 lần, uống cùng hoặc không cùng bữa ăn.",
+      "indications": "Kiểm soát đường huyết êm dịu, không gây hạ đường huyết quá mức và không làm tăng cân.",
+      "price_ref": "Khoảng 17.500đ - 19.500đ / viên tại Nhà thuốc Long Châu",
+      "longchau_url": "https://nhathuoclongchau.com.vn/thuoc/januvia-100mg-msd-4x7-1823.html"
+    },
+    {
+      "id": "M05",
+      "label": "Galvus Met 50mg/500mg, 50mg/850mg, 50mg/1000mg",
+      "type": "Medicine",
+      "active_ingredient": "Vildagliptin + Metformin Hydrochloride",
+      "manufacturer": "Novartis (Thụy Sĩ)",
+      "dosage": "Uống 1 viên x 2 lần/ngày trong bữa ăn sáng và tối.",
+      "indications": "Thuốc phối hợp 2 cơ chế: ức chế DPP-4 và tăng nhạy cảm Insulin.",
+      "price_ref": "Khoảng 10.500đ - 12.000đ / viên tại Nhà thuốc Long Châu",
+      "longchau_url": "https://nhathuoclongchau.com.vn/thuoc/galvus-met-50mg-850mg-novartis-6x10-1821.html"
+    },
+    {
+      "id": "M06",
+      "label": "Forxiga 10mg",
+      "type": "Medicine",
+      "active_ingredient": "Dapagliflozin",
+      "manufacturer": "AstraZeneca (Anh / Thụy Điển)",
+      "dosage": "10mg ngày 1 lần vào bất kỳ thời điểm nào trong ngày.",
+      "indications": "Đào thải Glucose thừa qua đường niệu, giảm nguy cơ suy tim và làm chậm tiến triển bệnh thận mạn.",
+      "price_ref": "Khoảng 20.500đ - 22.500đ / viên tại Nhà thuốc Long Châu",
+      "longchau_url": "https://nhathuoclongchau.com.vn/thuoc/forxiga-10mg-astrazeneca-2x14-22079.html"
+    },
+    {
+      "id": "M07",
+      "label": "Jardiance 10mg / 25mg",
+      "type": "Medicine",
+      "active_ingredient": "Empagliflozin",
+      "manufacturer": "Boehringer Ingelheim (Đức)",
+      "dosage": "10mg hoặc 25mg ngày 1 lần vào buổi sáng.",
+      "indications": "Ức chế SGLT-2, chứng minh giảm 38% tử vong do biến cố tim mạch ở người đái tháo đường Type 2.",
+      "price_ref": "Khoảng 23.000đ - 25.000đ / viên tại Nhà thuốc Long Châu",
+      "longchau_url": "https://nhathuoclongchau.com.vn/thuoc/jardiance-10mg-boehringer-3x10-23420.html"
+    },
+    {
+      "id": "M08",
+      "label": "Bút tiêm Lantus SoloStar 100 IU/ml (3ml)",
+      "type": "Medicine",
+      "active_ingredient": "Insulin Glargine",
+      "manufacturer": "Sanofi-Aventis (Đức)",
+      "dosage": "Tiêm dưới da 1 lần/ngày vào một giờ cố định (thường là buổi tối trước khi đi ngủ).",
+      "indications": "Insulin nền tác dụng kéo dài suốt 24 giờ, duy trì đường huyết ổn định cả ngày.",
+      "price_ref": "Khoảng 240.000đ - 260.000đ / bút tại Nhà thuốc Long Châu",
+      "longchau_url": "https://nhathuoclongchau.com.vn/thuoc/lantus-solostar-100-iu-ml-sanofi-5-but-tiem-x-3-ml-2311.html"
+    },
+    {
+      "id": "M09",
+      "label": "Mixtard 30 Penfill 100 IU/ml (3ml)",
+      "type": "Medicine",
+      "active_ingredient": "Insulin Người (30% hòa tan + 70% isophane)",
+      "manufacturer": "Novo Nordisk (Đan Mạch)",
+      "dosage": "Tiêm dưới da 1 - 2 lần/ngày trước bữa ăn 30 phút.",
+      "indications": "Insulin hỗn hợp kiểm soát cả đường huyết sau ăn và đường huyết nền.",
+      "price_ref": "Khoảng 150.000đ - 170.000đ / ống tại Nhà thuốc Long Châu",
+      "longchau_url": "https://nhathuoclongchau.com.vn/thuoc/mixtard-30-penfill-100-iu-ml-novo-nordisk-5-ong-x-3-ml-2315.html"
+    },
+    {
+      "id": "M10",
+      "label": "Sữa Glucerna 850g Abbott",
+      "type": "Medicine",
+      "active_ingredient": "Dinh dưỡng chuyên biệt dành cho người đái tháo đường",
+      "manufacturer": "Abbott (Mỹ)",
+      "dosage": "Uống 1 - 2 ly/ngày thay thế bữa ăn phụ hoặc bổ sung dinh dưỡng.",
+      "indications": "Hệ bột đường giải phóng chậm Fibersol giúp duy trì bình ổn đường huyết, tốt cho tim mạch.",
+      "price_ref": "Khoảng 790.000đ - 850.000đ / hộp 850g tại Nhà thuốc Long Châu",
+      "longchau_url": "https://nhathuoclongchau.com.vn/thuc-pham-chuc-nang/sua-glucerna-abbott-850g-18451.html"
+    },
+    {
+      "id": "M11",
+      "label": "Dây Thìa Canh Khang Thọ Kingphar",
+      "type": "Medicine",
+      "active_ingredient": "Cao Dây Thìa Canh (Gymnema Sylvestre)",
+      "manufacturer": "Kingphar (Việt Nam)",
+      "dosage": "Uống 1 - 2 viên x 2 lần/ngày trước bữa ăn 30 phút.",
+      "indications": "Hỗ trợ kích thích tế bào tụy, hạn chế hấp thu đường ở ruột và hạ đường huyết tự nhiên.",
+      "price_ref": "Khoảng 110.000đ - 135.000đ / hộp tại Nhà thuốc Long Châu",
+      "longchau_url": "https://nhathuoclongchau.com.vn/thuc-pham-chuc-nang/day-thia-canh-kingphar-60-vien-15792.html"
+    },
+    {
+      "id": "M12",
+      "label": "Máy đo đường huyết OneTouch Ultra Plus Flex / Accu-Chek Instant",
+      "type": "Medicine",
+      "active_ingredient": "Thiết bị y tế theo dõi đường huyết cá nhân",
+      "manufacturer": "LifeScan (Mỹ) / Roche (Đức)",
+      "dosage": "Đo sáng sớm lúc đói, sau ăn 2 giờ hoặc khi có dấu hiệu chóng mặt, hạ đường huyết.",
+      "indications": "Hỗ trợ bệnh nhân tự kiểm soát chỉ số Glucose tại nhà.",
+      "price_ref": "Khoảng 750.000đ - 1.200.000đ / bộ tại Nhà thuốc Long Châu",
+      "longchau_url": "https://nhathuoclongchau.com.vn/thiet-bi-y-te/may-do-duong-huyet-onetouch-ultra-plus-flex-21142.html"
+    },
+    {
+      "id": "DL01",
+      "label": "Chế độ ăn GI thấp (Low Glycemic Index)",
+      "type": "DietLifestyle",
+      "summary": "Ưu tiên thực phẩm có chỉ số đường huyết < 55: gạo lứt, yến mạch, các loại đậu, ngũ cốc nguyên cám."
+    },
+    {
+      "id": "DL02",
+      "label": "Bổ sung chất xơ hòa tan (>= 25g/ngày)",
+      "type": "DietLifestyle",
+      "summary": "Chất xơ làm chậm quá trình hấp thu đường vào máu và cải thiện hệ vi sinh đường ruột."
+    },
+    {
+      "id": "DL03",
+      "label": "Tập luyện thể thao >= 150 phút/tuần",
+      "type": "DietLifestyle",
+      "summary": "Đi bộ nhanh, chạy bộ, bơi lội hoặc đạp xe giúp cơ bắp tiêu thụ Glucose không cần Insulin và tăng nhạy cảm tế bào."
+    },
+    {
+      "id": "DL04",
+      "label": "Theo dõi chỉ số đường huyết định kỳ",
+      "type": "DietLifestyle",
+      "summary": "Tự đo đường huyết tại nhà và xét nghiệm HbA1c 3 tháng/lần tại cơ sở y tế."
+    },
+    {
+      "id": "DL05",
+      "label": "Kiểm tra bàn chân mỗi ngày",
+      "type": "DietLifestyle",
+      "summary": "Quan sát kỹ các kẽ ngón chân, vết nứt nẻ, bóng nước hoặc vết trầy xước để xử lý ngay, phòng ngừa hoại tử."
+    }
+  ],
+  "edges": [
+    {"from": "D01", "to": "S01", "label": "HAS_SYMPTOM", "title": "Gây triệu chứng khát nước"},
+    {"from": "D01", "to": "S02", "label": "HAS_SYMPTOM", "title": "Gây tiểu nhiều lần"},
+    {"from": "D01", "to": "S03", "label": "HAS_SYMPTOM", "title": "Gây sụt cân nhanh"},
+    {"from": "D01", "to": "S08", "label": "HAS_SYMPTOM", "title": "Gây mệt mỏi kiệt sức"},
+    {"from": "D01", "to": "R01", "label": "CHARACTERIZED_BY", "title": "Đặc trưng bởi đường huyết rất cao"},
+    {"from": "D01", "to": "DC05", "label": "REQUIRES_TREATMENT", "title": "Bắt buộc điều trị bằng Insulin"},
+    {"from": "D01", "to": "M08", "label": "TREATED_BY", "title": "Điều trị bằng Lantus SoloStar"},
+    {"from": "D01", "to": "M09", "label": "TREATED_BY", "title": "Điều trị bằng Mixtard 30"},
+    {"from": "D01", "to": "C01", "label": "MAY_CAUSE", "title": "Nguy cơ biến chứng thận"},
+    {"from": "D01", "to": "C02", "label": "MAY_CAUSE", "title": "Nguy cơ biến chứng võng mạc mắt"},
+    
+    {"from": "D02", "to": "S01", "label": "HAS_SYMPTOM", "title": "Khát nước nhiều"},
+    {"from": "D02", "to": "S02", "label": "HAS_SYMPTOM", "title": "Tiểu đêm nhiều"},
+    {"from": "D02", "to": "S04", "label": "HAS_SYMPTOM", "title": "Ăn nhiều nhưng đói"},
+    {"from": "D02", "to": "S05", "label": "HAS_SYMPTOM", "title": "Mờ mắt"},
+    {"from": "D02", "to": "S06", "label": "HAS_SYMPTOM", "title": "Vết thương lâu lành"},
+    {"from": "D02", "to": "S07", "label": "HAS_SYMPTOM", "title": "Tê bì chân tay"},
+    {"from": "D02", "to": "R01", "label": "HAS_RISK_FACTOR", "title": "Mức Glucose cao"},
+    {"from": "D02", "to": "R02", "label": "HAS_RISK_FACTOR", "title": "Thừa cân béo phì (BMI >= 25)"},
+    {"from": "D02", "to": "R03", "label": "HAS_RISK_FACTOR", "title": "Tuổi cao >= 45"},
+    {"from": "D02", "to": "R04", "label": "HAS_RISK_FACTOR", "title": "Tiền sử gia đình"},
+    {"from": "D02", "to": "R05", "label": "HAS_RISK_FACTOR", "title": "Tăng huyết áp"},
+    {"from": "D02", "to": "R06", "label": "HAS_RISK_FACTOR", "title": "Ít vận động"},
+    {"from": "D02", "to": "C01", "label": "MAY_CAUSE", "title": "Biến chứng suy thận"},
+    {"from": "D02", "to": "C02", "label": "MAY_CAUSE", "title": "Biến chứng võng mạc"},
+    {"from": "D02", "to": "C03", "label": "MAY_CAUSE", "title": "Biến chứng tim mạch xơ vữa"},
+    {"from": "D02", "to": "C04", "label": "MAY_CAUSE", "title": "Biến chứng loét bàn chân"},
+    {"from": "D02", "to": "C05", "label": "MAY_CAUSE", "title": "Bệnh thần kinh ngoại biên"},
+    {"from": "D02", "to": "DC01", "label": "TREATED_BY_CLASS", "title": "Điều trị bằng nhóm Biguanide"},
+    {"from": "D02", "to": "DC02", "label": "TREATED_BY_CLASS", "title": "Điều trị bằng nhóm Sulfonylurea"},
+    {"from": "D02", "to": "DC03", "label": "TREATED_BY_CLASS", "title": "Điều trị bằng nhóm DPP-4"},
+    {"from": "D02", "to": "DC04", "label": "TREATED_BY_CLASS", "title": "Điều trị bằng nhóm SGLT-2"},
+    {"from": "D02", "to": "M01", "label": "TREATED_BY", "title": "Điều trị bằng Glucophage 500/850/1000mg"},
+    {"from": "D02", "to": "M02", "label": "TREATED_BY", "title": "Điều trị bằng Glucophage XR"},
+    {"from": "D02", "to": "M03", "label": "TREATED_BY", "title": "Điều trị bằng Diamicron MR"},
+    {"from": "D02", "to": "M04", "label": "TREATED_BY", "title": "Điều trị bằng Januvia 100mg"},
+    {"from": "D02", "to": "M05", "label": "TREATED_BY", "title": "Điều trị bằng Galvus Met"},
+    {"from": "D02", "to": "M06", "label": "TREATED_BY", "title": "Điều trị bằng Forxiga 10mg"},
+    {"from": "D02", "to": "M07", "label": "TREATED_BY", "title": "Điều trị bằng Jardiance 10/25mg"},
+    {"from": "D02", "to": "M10", "label": "SUPPORTED_BY", "title": "Bổ sung dinh dưỡng Glucerna"},
+    {"from": "D02", "to": "M11", "label": "SUPPORTED_BY", "title": "Hỗ trợ hạ đường huyết bằng Dây Thìa Canh"},
+    {"from": "D02", "to": "M12", "label": "MONITORED_BY", "title": "Theo dõi bằng máy đo đường huyết OneTouch"},
+    {"from": "D02", "to": "DL01", "label": "MANAGED_BY", "title": "Áp dụng chế độ ăn GI thấp"},
+    {"from": "D02", "to": "DL02", "label": "MANAGED_BY", "title": "Tăng cường chất xơ hòa tan"},
+    {"from": "D02", "to": "DL03", "label": "MANAGED_BY", "title": "Thể dục >= 150 phút/tuần"},
+    {"from": "D02", "to": "DL04", "label": "MANAGED_BY", "title": "Theo dõi đường huyết định kỳ"},
+    {"from": "D02", "to": "DL05", "label": "MANAGED_BY", "title": "Chăm sóc bàn chân mỗi ngày"},
+
+    {"from": "D03", "to": "R02", "label": "HAS_RISK_FACTOR", "title": "Thừa cân khi mang thai"},
+    {"from": "D03", "to": "R03", "label": "HAS_RISK_FACTOR", "title": "Mang thai khi trên 35 tuổi"},
+    {"from": "D03", "to": "DC05", "label": "PREFERRED_TREATMENT", "title": "Insulin an toàn nhất cho thai kỳ"},
+    {"from": "D03", "to": "DL01", "label": "MANAGED_BY", "title": "Kiểm soát chế độ ăn uống thai kỳ"},
+
+    {"from": "D04", "to": "R01", "label": "HAS_RISK_FACTOR", "title": "Đường huyết đói 100-125 mg/dL"},
+    {"from": "D04", "to": "R02", "label": "HAS_RISK_FACTOR", "title": "Chỉ số BMI cao"},
+    {"from": "D04", "to": "D02", "label": "PROGRESSES_TO", "title": "Tiến triển thành Type 2 nếu không can thiệp"},
+    {"from": "D04", "to": "DL01", "label": "PREVENTED_BY", "title": "Ngăn ngừa bằng chế độ ăn lành mạnh"},
+    {"from": "D04", "to": "DL03", "label": "PREVENTED_BY", "title": "Ngăn ngừa bằng tập thể dục"},
+
+    {"from": "M01", "to": "DC01", "label": "BELONGS_TO_CLASS", "title": "Thuộc nhóm Biguanide"},
+    {"from": "M02", "to": "DC01", "label": "BELONGS_TO_CLASS", "title": "Thuộc nhóm Biguanide XR"},
+    {"from": "M03", "to": "DC02", "label": "BELONGS_TO_CLASS", "title": "Thuộc nhóm Sulfonylurea"},
+    {"from": "M04", "to": "DC03", "label": "BELONGS_TO_CLASS", "title": "Thuộc nhóm ức chế DPP-4"},
+    {"from": "M05", "to": "DC01", "label": "BELONGS_TO_CLASS", "title": "Chứa thành phần Metformin"},
+    {"from": "M05", "to": "DC03", "label": "BELONGS_TO_CLASS", "title": "Chứa thành phần Vildagliptin (DPP-4)"},
+    {"from": "M06", "to": "DC04", "label": "BELONGS_TO_CLASS", "title": "Thuộc nhóm ức chế SGLT-2"},
+    {"from": "M07", "to": "DC04", "label": "BELONGS_TO_CLASS", "title": "Thuộc nhóm ức chế SGLT-2"},
+    {"from": "M08", "to": "DC05", "label": "BELONGS_TO_CLASS", "title": "Thuộc nhóm Insulin nền"},
+    {"from": "M09", "to": "DC05", "label": "BELONGS_TO_CLASS", "title": "Thuộc nhóm Insulin hỗn hợp"},
+
+    {"from": "M06", "to": "C01", "label": "PREVENTS", "title": "Bảo vệ thận và làm chậm suy thận"},
+    {"from": "M06", "to": "C03", "label": "PREVENTS", "title": "Giảm nguy cơ nhập viện do suy tim"},
+    {"from": "M07", "to": "C03", "label": "PREVENTS", "title": "Giảm tử vong do biến cố tim mạch"},
+    {"from": "M01", "to": "R02", "label": "HELPS_REDUCE", "title": "Hỗ trợ kiểm soát cân nặng tốt"},
+    {"from": "DL03", "to": "R02", "label": "HELPS_REDUCE", "title": "Giảm mỡ thừa và chỉ số BMI"},
+    {"from": "DL03", "to": "R01", "label": "HELPS_REDUCE", "title": "Hạ mức đường huyết tự nhiên"},
+    {"from": "DL01", "to": "R01", "label": "HELPS_REDUCE", "title": "Ngăn ngừa tăng vọt đường huyết sau ăn"}
+  ]
+}

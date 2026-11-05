@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ Thống Y Tế & Chẩn Đoán Đái Tháo Đường | Chapter 12</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Vis.js Network for Knowledge Graph -->
+  <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- TOP NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-notes-medical"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">Hệ Thống Y Tế & Chẩn Đoán Đái Tháo Đường</span>
+          <span class="brand-subtitle">Mô hình Học máy Lâm sàng & Cơ sở Dược phẩm Long Châu</span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs" id="navTabs">
+        <button class="tab-btn active" data-tab="tab-predict">
+          <i class="fa-solid fa-stethoscope"></i>
+          <span class="tab-text-full">Chẩn Đoán Lâm Sàng</span>
+          <span class="tab-text-short">Chẩn Đoán</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-graph">
+          <i class="fa-solid fa-diagram-project"></i>
+          <span class="tab-text-full">Đồ Thị Tri Thức</span>
+          <span class="tab-text-short">Đồ Thị</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-chat">
+          <i class="fa-solid fa-user-doctor"></i>
+          <span class="tab-text-full">Tra Cứu & Tư Vấn Y Khoa</span>
+          <span class="tab-text-short">Tư Vấn AI</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-benchmark">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span class="tab-text-full">Báo Cáo Thực Nghiệm</span>
+          <span class="tab-text-short">Báo Cáo</span>
+        </button>
+      </nav>
+
+      <!-- System Status Indicators -->
+      <div class="nav-status">
+        <button class="db-status-btn" id="btnOpenNeo4jModal" title="Nhấp để cấu hình và đồng bộ cơ sở dữ liệu Neo4j">
+          <span class="status-dot" id="neo4jStatusDot"></span>
+          <span class="db-name" id="neo4jStatusText">Local Graph (45 Nodes)</span>
+          <i class="fa-solid fa-gear db-gear-icon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="main-container">
+
+    <!-- ======================================================== -->
+    <!-- TAB 1: CHẨN ĐOÁN & DỰ ĐOÁN HỌC MÁY (ML PREDICTION) -->
+    <!-- ======================================================== -->
+    <section id="tab-predict" class="tab-content active">
+      <div class="grid-2col">
+        
+        <!-- Left Column: Input Form -->
+        <div class="card glass-card">
+          <div class="card-header">
+            <div class="header-icon"><i class="fa-solid fa-notes-medical"></i></div>
+            <div>
+              <h3>Nhập Chỉ Số Lâm Sàng Bệnh Nhân</h3>
+              <p class="text-muted">Dự đoán nguy cơ đái tháo đường qua mô hình học máy lâm sàng</p>
+            </div>
+          </div>
+
+          <form id="predictionForm" class="form-body">
+            <!-- Mode Switcher -->
+            <div class="mode-switch-wrapper">
+              <span class="mode-switch-label"><i class="fa-solid fa-sliders"></i> Chế độ:</span>
+              <div class="mode-switch-group">
+                <button type="button" class="mode-btn active" id="btnModeQuick" onclick="setPredictionMode('quick')">
+                  <i class="fa-solid fa-bolt"></i>
+                  <span class="mode-text-full">Sàng Lọc Nhanh (Top 3)</span>
+                  <span class="mode-text-short">Top 3 Nhanh</span>
+                </button>
+                <button type="button" class="mode-btn" id="btnModeFull" onclick="setPredictionMode('full')">
+                  <i class="fa-solid fa-stethoscope"></i>
+                  <span class="mode-text-full">Khám Chuyên Sâu (Đủ 8 Chỉ Số)</span>
+                  <span class="mode-text-short">Đủ 8 Chỉ Số</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Preset Buttons -->
+            <div class="presets-row" id="presetsRow">
+              <span class="presets-label"><i class="fa-solid fa-wand-magic-sparkles"></i> Mẫu:</span>
+              <button type="button" class="preset-btn" onclick="applyPreset(100, 28.5, 29, 0, 70, 20, 75, 0.25)">Bình thường</button>
+              <button type="button" class="preset-btn warning" onclick="applyPreset(118, 29.5, 42, 1, 80, 26, 125, 0.45)">Tiền ĐTĐ</button>
+              <button type="button" class="preset-btn danger" onclick="applyPreset(165, 38.0, 52, 3, 94, 35, 210, 0.85)">Nguy cơ cao</button>
+            </div>
+
+            <!-- 2-Column Fields Grid Container -->
+            <div class="fields-grid" id="fieldsGrid">
+              
+              <!-- 1. Glucose -->
+              <div class="field-card" id="fieldCardGlucose">
+                <div class="field-header">
+                  <label for="inputGlucose"><i class="fa-solid fa-droplet text-primary"></i> 1. Đường huyết</label>
+                  <div class="field-input-box">
+                    <input type="number" id="inputGlucose" min="40" max="300" value="100" class="field-number-input">
+                    <span class="field-unit">mg/dL</span>
+                  </div>
+                </div>
+                <input type="range" id="rangeGlucose" min="40" max="250" value="100" class="field-range-slider">
+              </div>
+
+              <!-- 2. BMI -->
+              <div class="field-card" id="fieldCardBMI">
+                <div class="field-header">
+                  <label for="inputBMI"><i class="fa-solid fa-weight-scale text-primary"></i> 2. Chỉ số BMI</label>
+                  <div class="field-input-box">
+                    <input type="number" id="inputBMI" min="10" max="70" step="0.1" value="28.5" class="field-number-input">
+                    <span class="field-unit">kg/m²</span>
+                  </div>
+                </div>
+                <input type="range" id="rangeBMI" min="15" max="60" step="0.1" value="28.5" class="field-range-slider">
+              </div>
+
+              <!-- 3. Age -->
+              <div class="field-card" id="fieldCardAge">
+                <div class="field-header">
+                  <label for="inputAge"><i class="fa-solid fa-calendar-day text-primary"></i> 3. Tuổi tác</label>
+                  <div class="field-input-box">
+                    <input type="number" id="inputAge" min="1" max="120" value="29" class="field-number-input">
+                    <span class="field-unit">tuổi</span>
+                  </div>
+                </div>
+                <input type="range" id="rangeAge" min="18" max="90" value="29" class="field-range-slider">
+              </div>
+
+              <!-- 4. Blood Pressure (Full Mode) -->
+              <div class="field-card adv-field hidden" id="fieldCardBP">
+                <div class="field-header">
+                  <label for="inputBP"><i class="fa-solid fa-heart-pulse text-danger"></i> 4. Huyết áp</label>
+                  <div class="field-input-box">
+                    <input type="number" id="inputBP" min="30" max="180" value="72" class="field-number-input">
+                    <span class="field-unit">mmHg</span>
+                  </div>
+                </div>
+                <input type="range" id="rangeBP" min="40" max="140" value="72" class="field-range-slider">
+              </div>
+
+              <!-- 5. Insulin (Full Mode) -->
+              <div class="field-card adv-field hidden" id="fieldCardInsulin">
+                <div class="field-header">
+                  <label for="inputInsulin"><i class="fa-solid fa-vial text-primary"></i> 5. Insulin 2h</label>
+                  <div class="field-input-box">
+                    <input type="number" id="inputInsulin" min="0" max="850" value="80" class="field-number-input">
+                    <span class="field-unit">μU/ml</span>
+                  </div>
+                </div>
+                <input type="range" id="rangeInsulin" min="0" max="600" value="80" class="field-range-slider">
+              </div>
+
+              <!-- 6. Diabetes Pedigree Function (Full Mode) -->
+              <div class="field-card adv-field hidden" id="fieldCardDPF">
+                <div class="field-header">
+                  <label for="inputDPF"><i class="fa-solid fa-dna text-primary"></i> 6. Phả hệ DPF</label>
+                  <div class="field-input-box">
+                    <input type="number" id="inputDPF" min="0.01" max="3.00" step="0.01" value="0.47" class="field-number-input">
+                    <span class="field-unit">hệ số</span>
+                  </div>
+                </div>
+                <input type="range" id="rangeDPF" min="0.05" max="2.50" step="0.01" value="0.47" class="field-range-slider">
+              </div>
+
+              <!-- 7. Pregnancies (Full Mode) -->
+              <div class="field-card adv-field hidden" id="fieldCardPregnancies">
+                <div class="field-header">
+                  <label for="inputPregnancies"><i class="fa-solid fa-person-breastfeeding text-primary"></i> 7. Số lần mang thai</label>
+                  <div class="field-input-box">
+                    <input type="number" id="inputPregnancies" min="0" max="20" value="1" class="field-number-input">
+                    <span class="field-unit">lần</span>
+                  </div>
+                </div>
+                <input type="range" id="rangePregnancies" min="0" max="17" value="1" class="field-range-slider">
+              </div>
+
+              <!-- 8. Skin Thickness (Full Mode) -->
+              <div class="field-card adv-field hidden" id="fieldCardSkin">
+                <div class="field-header">
+                  <label for="inputSkin"><i class="fa-solid fa-ruler-vertical text-primary"></i> 8. Nếp gấp da</label>
+                  <div class="field-input-box">
+                    <input type="number" id="inputSkin" min="0" max="100" value="23" class="field-number-input">
+                    <span class="field-unit">mm</span>
+                  </div>
+                </div>
+                <input type="range" id="rangeSkin" min="0" max="99" value="23" class="field-range-slider">
+              </div>
+
+            </div>
+
+            <button type="submit" class="btn-primary submit-btn" id="btnPredict" style="margin-top: 1rem;">
+              <i class="fa-solid fa-microchip"></i>
+              <span id="predictBtnText">Thực Hiện Dự Đoán Học Máy (Top 3)</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Right Column: Result Output -->
+        <div class="card glass-card result-panel" id="resultPanel">
+          <div class="card-header">
+            <div class="header-icon success"><i class="fa-solid fa-square-poll-vertical"></i></div>
+            <div>
+              <h3>Kết Quả Chẩn Đoán & Đánh Giá Rủi Ro</h3>
+              <p class="text-muted">Mô hình KNN ($k=19$) & Phân tích cơ sở y học</p>
+            </div>
+          </div>
+
+          <div class="result-body" id="resultBody">
+            <!-- Initial placeholder state -->
+            <div class="result-placeholder" id="resPlaceholder">
+              <div class="placeholder-icon"><i class="fa-solid fa-heart-pulse fa-bounce"></i></div>
+              <h4>Sẵn Sàng Dự Đoán</h4>
+              <p>Nhập thông số bệnh nhân bên trái hoặc bấm nút dữ liệu mẫu để nhận kết quả phân tích lâm sàng.</p>
+            </div>
+
+            <!-- Computed result card (hidden by default) -->
+            <div class="result-computed hidden" id="resComputed">
+              <div class="diagnosis-banner" id="diagBanner">
+                <div class="diag-icon-wrapper" id="diagIcon">
+                  <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div class="diag-details">
+                  <span class="diag-sub">Kết Luận Phân Lớp:</span>
+                  <h2 class="diag-title" id="diagTitle">Not Diabetic (Bình thường)</h2>
+                  <span class="diag-tag" id="diagTag">Mức độ nguy cơ: Thấp</span>
+                </div>
+              </div>
+
+              <!-- Probability Gauge & Bar -->
+              <div class="metrics-grid">
+                <div class="metric-card">
+                  <span class="metric-label">Độ Tin Cậy Mô Hình</span>
+                  <div class="metric-value" id="valConfidence">78.95%</div>
+                  <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="fillConfidence" style="width: 78.95%;"></div>
+                  </div>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-label">Xác Suất Bệnh (Outcome = 1)</span>
+                  <div class="metric-value text-danger" id="valProbDiabetic">21.05%</div>
+                  <div class="progress-bar-bg">
+                    <div class="progress-bar-fill fill-danger" id="fillProbDiabetic" style="width: 21.05%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recommendations list -->
+              <div class="recs-box">
+                <h4><i class="fa-solid fa-user-doctor"></i> Khuyến Nghị Lâm Sàng & Dược Phẩm:</h4>
+                <ul id="recsList" class="recs-list">
+                  <!-- Injected via JS -->
+                </ul>
+              </div>
+
+              <!-- Quick action to consult chatbot -->
+              <div class="quick-actions">
+                <button type="button" class="btn-secondary" id="btnAskBotWithContext">
+                  <i class="fa-solid fa-robot"></i>
+                  <span>Hỏi Chatbot Về Kết Quả Này</span>
+                </button>
+                <button type="button" class="btn-outline" onclick="switchTab('tab-graph')">
+                  <i class="fa-solid fa-diagram-project"></i>
+                  <span>Tra Cứu Trên Knowledge Graph</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 2: KNOWLEDGE GRAPH VISUALIZER (NHÀ THUỐC LONG CHÂU) -->
+    <!-- ======================================================== -->
+    <section id="tab-graph" class="tab-content">
+      <div class="graph-layout">
+        
+        <!-- Graph Control & Canvas Area -->
+        <div class="graph-main card glass-card">
+          <div class="graph-toolbar">
+            <div class="toolbar-left">
+              <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="graphSearchInput" placeholder="Tìm kiếm thuốc, triệu chứng, hoạt chất (Metformin, Mắt mờ...)...">
+                <button class="btn-icon" id="btnGraphSearch" title="Tìm kiếm"><i class="fa-solid fa-arrow-right"></i></button>
+              </div>
+
+              <div class="filter-dropdown-wrapper">
+                <select id="graphFilterSelect" class="custom-select">
+                  <option value="ALL">Tất cả thực thể (45 Nodes)</option>
+                  <option value="Medicine">Thuốc & Biệt Dược Long Châu</option>
+                  <option value="Disease">Bệnh Học Đái Tháo Đường</option>
+                  <option value="Symptom">Triệu Chứng Lâm Sàng</option>
+                  <option value="RiskFactor">Yếu Tố Nguy Cơ</option>
+                  <option value="Complication">Biến Chứng Nguy Hiểm</option>
+                  <option value="DrugClass">Nhóm Dược Lý</option>
+                  <option value="DietLifestyle">Dinh Dưỡng & Sinh Hoạt</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="toolbar-right">
+              <button class="btn-tool" id="btnFitGraph" title="Căn chỉnh toàn màn hình"><i class="fa-solid fa-compress"></i></button>
+              <button class="btn-tool" id="btnTogglePhysics" title="Bật/Tắt vật lý mạng"><i class="fa-solid fa-atom"></i></button>
+              <button class="btn-tool" id="btnSyncNeo4j" title="Đồng bộ vào cơ sở dữ liệu Neo4j"><i class="fa-solid fa-arrows-rotate"></i> Sync Neo4j</button>
+            </div>
+          </div>
+
+          <!-- Network Canvas -->
+          <div id="visNetworkContainer" class="vis-container">
+            <div class="graph-loading" id="graphLoading">
+              <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+              <p>Đang tải đồ thị tri thức Y khoa Long Châu...</p>
+            </div>
+          </div>
+
+          <!-- Legend Bar -->
+          <div class="graph-legend">
+            <div class="legend-item"><span class="legend-dot" style="background:#0284c7;"></span> Bệnh Học</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#059669;"></span> Thuốc Long Châu</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#0d9488;"></span> Nhóm Dược Lý</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#ea580c;"></span> Triệu Chứng</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#dc2626;"></span> Yếu Tố Nguy Cơ</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#7c3aed;"></span> Biến Chứng</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#d97706;"></span> Dinh Dưỡng</div>
+          </div>
+        </div>
+
+        <!-- Node Inspector Sidebar -->
+        <div class="graph-sidebar card glass-card" id="nodeInspector">
+          <div class="card-header">
+            <div class="header-icon"><i class="fa-solid fa-circle-info"></i></div>
+            <div>
+              <h3>Chi Tiết Thực Thể</h3>
+              <p class="text-muted" id="inspectorSub">Nhấp vào một nút trên đồ thị để xem thông tin</p>
+            </div>
+          </div>
+
+          <div class="inspector-body" id="inspectorBody">
+            <div class="empty-inspector">
+              <i class="fa-solid fa-hand-pointer"></i>
+              <p>Chọn một Node bất kỳ trên đồ thị tri thức để khám phá cơ chế hoạt động, giá bán tại Nhà thuốc Long Châu và các mối quan hệ y khoa.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 3: TRA CỨU & TƯ VẤN Y KHOA (KNOWLEDGE RETRIEVAL) -->
+    <!-- ======================================================== -->
+    <section id="tab-chat" class="tab-content">
+      <div class="chat-layout card glass-card">
+        
+        <!-- Chat Header -->
+        <div class="chat-header">
+          <div class="chat-brand-group">
+            <div class="chat-avatar">
+              <i class="fa-solid fa-notes-medical"></i>
+            </div>
+            <div class="chat-info">
+              <h3>Tư Vấn Y Khoa Đái Tháo Đường</h3>
+              <p>Tra cứu phác đồ điều trị, danh mục thuốc Long Châu và đối chiếu chỉ số xét nghiệm</p>
+            </div>
+          </div>
+          <div class="chat-actions">
+            <button class="chat-btn-action ai-config-btn" id="btnOpenApiKeyModal" title="Cấu hình Google Gemini AI để sinh văn bản linh hoạt 100%">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span class="btn-text-full">Cấu Hình AI (LLM)</span>
+              <span class="btn-text-short">AI LLM</span>
+            </button>
+            <button class="chat-btn-action reset-btn" id="btnClearChat" title="Làm mới lịch sử trò chuyện">
+              <i class="fa-solid fa-rotate-left"></i>
+              <span class="btn-text-full">Làm Mới Chat</span>
+              <span class="btn-text-short">Làm Mới</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat Messages Stream -->
+        <div class="chat-messages" id="chatMessages">
+          <!-- Initial welcome bot message -->
+          <div class="msg bot-msg">
+            <div class="msg-avatar"><i class="fa-solid fa-notes-medical"></i></div>
+            <div class="msg-bubble">
+              <div class="msg-text">
+                <p>Hệ thống hỗ trợ tra cứu thông tin bệnh học đái tháo đường, danh mục dược phẩm từ <strong>Nhà thuốc Long Châu</strong> và đối chiếu chỉ số xét nghiệm theo mô hình phân loại lâm sàng.</p>
+                <p>Các nội dung tra cứu chính:</p>
+                <ul>
+                  <li>Thông tin hoạt chất, liều dùng và giá tham khảo các loại thuốc (Glucophage, Diamicron, Januvia, Forxiga, Jardiance...).</li>
+                  <li>Thông tin về triệu chứng (khát nhiều, tiểu nhiều, sụt cân, nhìn mờ...) và biến chứng liên quan.</li>
+                  <li>Đối chiếu chỉ số xét nghiệm đường huyết, BMI, độ tuổi.</li>
+                  <li>Khuyến nghị chế độ dinh dưỡng và vận động hỗ trợ kiểm soát đường huyết.</li>
+                </ul>
+              </div>
+              <span class="msg-time">Hệ thống</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Suggested Chips -->
+        <div class="prompt-chips" id="promptChips">
+          <span class="chip-label"><i class="fa-solid fa-list-check"></i> Câu hỏi mẫu:</span>
+          <button class="chip-btn" onclick="sendSuggestedQuery('Uống thuốc Glucophage (Metformin) có tác dụng phụ gì và giá bao nhiêu tại Long Châu?')">Glucophage: tác dụng & giá?</button>
+          <button class="chip-btn" onclick="sendSuggestedQuery('Tôi có triệu chứng khát nước liên tục, tiểu đêm nhiều và mắt mờ thì có phải bị tiểu đường không?')">Khát nước & tiểu đêm nhiều?</button>
+          <button class="chip-btn" onclick="sendSuggestedQuery('So sánh sự khác nhau giữa thuốc Forxiga 10mg và Jardiance 10mg trong điều trị tiểu đường Type 2?')">So sánh Forxiga & Jardiance</button>
+          <button class="chip-btn" onclick="sendSuggestedQuery('Người bệnh tiểu đường nên có chế độ ăn uống và tập luyện thể dục thế nào?')">Chế độ ăn & Lối sống</button>
+        </div>
+
+        <!-- Chat Input Bar -->
+        <div class="chat-input-bar">
+          <textarea id="chatInput" rows="1" placeholder="Nhập câu hỏi tra cứu y khoa, thuốc hoặc chỉ số xét nghiệm..." onkeydown="handleChatKeyDown(event)" oninput="autoResizeChatInput(this)"></textarea>
+          <button class="btn-primary send-btn" id="btnSendChat" onclick="sendChatMessage()" title="Gửi tin nhắn">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 4: BÁO CÁO & THỰC NGHIỆM CHAPTER 12 -->
+    <!-- ======================================================== -->
+    <section id="tab-benchmark" class="tab-content">
+      <div class="benchmark-container">
+        
+        <!-- Summary Cards Row -->
+        <div class="bench-cards-row">
+          <div class="bench-card card glass-card">
+            <div class="b-icon primary"><i class="fa-solid fa-trophy"></i></div>
+            <div class="b-details">
+              <span class="b-label">Mô Hình Xuất Sắc Nhất</span>
+              <h3 class="b-val">KNN (k=19) - Top 3 Features</h3>
+              <span class="b-sub text-success">Độ chính xác 10-Fold CV: <strong>77.21%</strong></span>
+            </div>
+          </div>
+
+          <div class="bench-card card glass-card">
+            <div class="b-icon teal"><i class="fa-solid fa-sliders"></i></div>
+            <div class="b-details">
+              <span class="b-label">3 Đặc Trưng Tối Ưu</span>
+              <h3 class="b-val">Glucose, BMI, Age</h3>
+              <span class="b-sub">Tương quan cao nhất với Outcome (0.49, 0.31, 0.24)</span>
+            </div>
+          </div>
+
+          <div class="bench-card card glass-card">
+            <div class="b-icon danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="b-details">
+              <span class="b-label">Phát Hiện Khoa Học</span>
+              <h3 class="b-val">Curse of Dimensionality</h3>
+              <span class="b-sub">KNN giảm từ 77.21% (3 feat) xuống 74.88% (8 feat)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Benchmark Comparison Table -->
+        <div class="card glass-card table-panel">
+          <div class="card-header">
+            <div class="header-icon"><i class="fa-solid fa-table-list"></i></div>
+            <div>
+              <h3>Bảng Kết Quả Thực Nghiệm Đối Chiếu (10-Fold Cross-Validation)</h3>
+              <p class="text-muted">So sánh 4 thuật toán trên các tập đặc trưng 3, 5, 7, 8 theo giáo trình Chapter 12</p>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="benchmark-table">
+              <thead>
+                <tr>
+                  <th>Tập Đặc Trưng Khảo Sát</th>
+                  <th>Danh Sách Đặc Trưng</th>
+                  <th>Logistic Regression</th>
+                  <th>KNN (Tối Ưu k)</th>
+                  <th>SVM Linear</th>
+                  <th>SVM RBF</th>
+                </tr>
+              </thead>
+              <tbody id="benchmarkTableBody">
+                <!-- Dynamically loaded or fallback rows -->
+                <tr class="highlight-row">
+                  <td><strong>Top 3 Features (Chuẩn Ch.12) ⭐</strong></td>
+                  <td><code>Glucose, BMI, Age</code></td>
+                  <td>76.70%</td>
+                  <td><span class="badge-best">77.21% (k=19)</span></td>
+                  <td>76.57%</td>
+                  <td>76.57%</td>
+                </tr>
+                <tr>
+                  <td><strong>Top 5 Features</strong></td>
+                  <td><code>Glucose, BMI, Age, Pregnancies, SkinThickness</code></td>
+                  <td>76.83%</td>
+                  <td>76.31% (k=15)</td>
+                  <td>76.57%</td>
+                  <td>76.70%</td>
+                </tr>
+                <tr>
+                  <td><strong>Top 7 Features</strong></td>
+                  <td><code>+ Insulin, DiabetesPedigreeFunction</code></td>
+                  <td>76.83%</td>
+                  <td>75.40% (k=15)</td>
+                  <td>76.70%</td>
+                  <td>76.70%</td>
+                </tr>
+                <tr>
+                  <td><strong>All 8 Features</strong></td>
+                  <td><code>Toàn bộ 8 cột dữ liệu lâm sàng</code></td>
+                  <td>77.22%</td>
+                  <td>74.88% (k=17)</td>
+                  <td>76.96%</td>
+                  <td>76.70%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Q&A Defense Accordion -->
+        <div class="card glass-card qa-panel">
+          <div class="card-header">
+            <div class="header-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <div>
+              <h3>Bộ Câu Hỏi & Kịch Bản Trả Lời Vấn Đáp (Chapter 12)</h3>
+              <p class="text-muted">Các nội dung trọng tâm thầy cô thường hỏi khi bảo vệ đồ án / thực hành</p>
+            </div>
+          </div>
+
+          <div class="qa-accordion">
+            <details class="qa-item" open>
+              <summary><strong>1. Tại sao các giá trị bằng 0 trong tập dữ liệu lại phải thay bằng NaN rồi mới điền Mean?</strong></summary>
+              <div class="qa-answer">
+                <p>Trong y tế, các chỉ số như <code>Glucose</code>, <code>BloodPressure</code>, <code>BMI</code> không thể bằng 0 ở người còn sống. Giá trị 0 ở đây thực chất là dữ liệu bị khuyết thiếu (Missing Data). Nếu để nguyên số 0 để tính toán, nó sẽ làm sai lệch nghiêm trọng phân phối xác suất và giá trị trung bình của toàn bộ cột. Quy trình chuẩn là gán các giá trị 0 phi lý này thành <code>np.nan</code> rồi dùng phương pháp nội suy trung bình cột (<code>df.fillna(df.mean())</code>) để bù đắp.</p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary><strong>2. Tại sao lại chọn 3 đặc trưng (Glucose, BMI, Age) thay vì dùng toàn bộ 8 đặc trưng?</strong></summary>
+              <div class="qa-answer">
+                <p>1) <strong>Phân tích tương quan:</strong> 3 chỉ số <code>Glucose</code> (0.49), <code>BMI</code> (0.31), <code>Age</code> (0.24) có tương quan cao vượt trội với nhãn <code>Outcome</code>.<br>
+                2) <strong>Thực nghiệm kiểm chứng:</strong> Với KNN, mô hình 3 đặc trưng đạt <strong>77.21%</strong>, cao hơn mô hình 8 đặc trưng (<strong>74.88%</strong>) do loại bỏ được hiện tượng bão hòa khoảng cách (Curse of Dimensionality), đồng thời giúp người dùng chỉ cần nhập 3 chỉ số quen thuộc.</p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary><strong>3. Phương pháp 10-Fold Cross-Validation hoạt động như thế nào và tại sao lại sử dụng?</strong></summary>
+              <div class="qa-answer">
+                <p>10-Fold CV chia tập dữ liệu thành 10 phần bằng nhau. Quá trình lặp lại 10 lần: mỗi lần chọn 1 phần làm tập kiểm thử (Test Set) và 9 phần còn lại làm tập huấn luyện (Train Set). Điểm đánh giá là trung bình của 10 lần đo. Giúp loại bỏ hoàn toàn yếu tố may rủi khi chia tập dữ liệu với mẫu nhỏ 768 hàng.</p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary><strong>4. File <code>diabetes.sav</code> là gì và quy trình triển khai REST API hoạt động ra sao?</strong></summary>
+              <div class="qa-answer">
+                <p><code>diabetes.sav</code> là tệp nhị phân lưu mô hình KNN ($k=19$) đã được huấn luyện bằng thư viện <code>pickle</code>. Khi khởi động Flask Server, máy chủ nạp trực tiếp file <code>.sav</code> vào RAM trong vài mili-giây và phục vụ endpoint <code>POST /diabetes/v1/predict</code> nhận payload JSON 3 tham số để trả về kết quả dự đoán thời gian thực cho Client.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- NEO4J CONFIGURATION MODAL -->
+  <div class="modal-overlay hidden" id="neo4jModal">
+    <div class="modal-card card glass-card">
+      <div class="card-header">
+        <div class="header-icon"><i class="fa-solid fa-database"></i></div>
+        <div>
+          <h3>Cấu Hình Kết Nối Neo4j Desktop</h3>
+          <p class="text-muted">Nhập thông tin DBMS từ Neo4j Desktop của bạn để đồng bộ đồ thị</p>
+        </div>
+        <button class="btn-icon modal-close" id="btnCloseNeo4jModal" style="margin-left:auto; background:#e2e8f0; color:#475569;"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <form id="neo4jConfigForm" class="form-body">
+        <div class="form-group">
+          <label for="neo4jUri">Bolt URI:</label>
+          <input type="text" id="neo4jUri" value="bolt://localhost:7687" class="custom-input full-width" placeholder="bolt://localhost:7687">
+        </div>
+
+        <div class="form-group">
+          <label for="neo4jUser">Username:</label>
+          <input type="text" id="neo4jUser" value="neo4j" class="custom-input full-width" placeholder="neo4j">
+        </div>
+
+        <div class="form-group">
+          <label for="neo4jPassword">Password:</label>
+          <input type="password" id="neo4jPassword" class="custom-input full-width" placeholder="Nhập mật khẩu bạn đã đặt trong Neo4j Desktop">
+          <span class="unit-text">Mật khẩu khi bạn tạo Local DBMS trong Neo4j Desktop (ví dụ: password, 12345678, ...)</span>
+        </div>
+
+        <div id="neo4jModalFeedback" class="modal-feedback hidden"></div>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary" id="btnSaveNeo4jConfig">
+            <i class="fa-solid fa-link"></i>
+            <span>Kết Nối & Đồng Bộ Dữ Liệu</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- API KEY CONFIGURATION MODAL -->
+  <div class="modal-overlay hidden" id="apiKeyModal">
+    <div class="modal-card card glass-card">
+      <div class="card-header">
+        <div class="header-icon"><i class="fa-solid fa-key"></i></div>
+        <div>
+          <h3>Cấu Hình Generative AI (LLM)</h3>
+          <p class="text-muted">Nhập Google Gemini API Key để trò chuyện sinh văn bản tự do 100%</p>
+        </div>
+        <button class="btn-icon modal-close" id="btnCloseApiKeyModal" style="margin-left:auto; background:#e2e8f0; color:#475569;"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <form id="apiKeyConfigForm" class="form-body">
+        <div class="form-group">
+          <label for="geminiApiKey">Google Gemini API Key:</label>
+          <input type="password" id="geminiApiKey" class="custom-input full-width" placeholder="AIzaSy...">
+          <span class="unit-text">Khóa API Google Gemini (hoàn toàn miễn phí). Khi nhập, Chatbot sẽ kích hoạt mô hình Gemini 1.5 Flash kết hợp dữ liệu Knowledge Graph.</span>
+        </div>
+
+        <div id="apiKeyModalFeedback" class="modal-feedback hidden"></div>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary" id="btnSaveApiKey">
+            <i class="fa-solid fa-floppy-disk"></i>
+            <span>Lưu & Kích Hoạt Generative AI</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Core Modular JavaScript Modules -->
+  <script src="js/state.js"></script>
+  <script src="js/predict.js"></script>
+  <script src="js/graph.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/benchmark.js"></script>
+  <script src="js/modals.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches and checkpoints
+.ipynb_checkpoints/
+.pytest_cache/
+.streamlit_cache/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Microsoft Office temporary lock files
+~$*
+*.tmp

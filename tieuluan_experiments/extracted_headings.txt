@@ -1,0 +1,464 @@
+Page   1 [13.0pt]: HỌC VIỆN CÔNG NGHỆ BƯU CHÍNH VIỄN THÔNG
+Page   1 [13.0pt]: KHOA CÔNG NGHỆ THÔNG TIN 1
+Page   1 [15.0pt]: BÁO CÁO TIỂU LUẬN 03
+Page   1 [15.0pt]: HỌC PHẦN: PHÁT TRIỂN CÁC HỆ THỐNG THÔNG MINH
+Page   1 [13.0pt]: Giảng viên
+Page   1 [13.0pt]: : PGS.TS. Trần Đình Quế
+Page   1 [13.0pt]: Nhóm học phần
+Page   1 [13.0pt]: Họ và tên
+Page   1 [13.0pt]: Mã sinh viên
+Page   1 [13.0pt]: Lớp
+Page   1 [13.0pt]: : 05
+Page   1 [13.0pt]: : Nguyễn Đức Trung
+Page   1 [13.0pt]: : B23DCCN857
+Page   1 [13.0pt]: : D23CNPM01
+Page   1 [13.0pt]: HÀ NỘI 2026
+Page   2 [16.0pt]: MỤC LỤC
+Page  10 [16.0pt]: DANH MỤC HÌNH ẢNH
+Page  12 [16.0pt]: MỞ ĐẦU
+Page  12 [14.0pt]: 1. Bối cảnh đề tài
+Page  13 [14.0pt]: 2. Mục tiêu của tiểu luận
+Page  13 [14.0pt]: 3. Đối tượng và phạm vi nghiên cứu
+Page  14 [14.0pt]: 4. Phương pháp thực hiện
+Page  15 [14.0pt]: 5. Ý nghĩa của tiểu luận
+Page  15 [14.0pt]: 6. Cấu trúc của tiểu luận
+Page  15 [13.0pt]: Chương 1: Lịch sử phát triển AI
+Page  15 [13.0pt]: Chương 2: Các kỹ thuật ML cơ bản
+Page  15 [13.0pt]: Chương 3: CNN
+Page  16 [13.0pt]: Chương 4: RNN
+Page  16 [13.0pt]: Chương 5: Knowledge Graph và RAG
+Page  16 [13.0pt]: Chương 6: Deep Graph
+Page  16 [13.0pt]: Chương 7: Hệ đa Agent
+Page  16 [14.0pt]: 7. Tiểu kết phần mở đầu
+Page  17 [16.0pt]: CHƯƠNG 1. LỊCH SỬ PHÁT TRIỂN TRÍ TUỆ NHÂN TẠO
+Page  17 [14.0pt]: 1.1. Tổng quan về trí tuệ nhân tạo
+Page  18 [14.0pt]: 1.2. Những ý tưởng ban đầu về máy thông minh
+Page  18 [14.0pt]: 1.3. Alan Turing và câu hỏi về khả năng suy nghĩ của máy
+Page  19 [14.0pt]: 1.4. Hội thảo Dartmouth và sự hình thành thuật ngữ Artificial Intelligence
+Page  20 [14.0pt]: 1.5. AI biểu tượng và phương pháp dựa trên luật
+Page  20 [14.0pt]: 1.6. Sự phát triển của hệ chuyên gia
+Page  21 [14.0pt]: 1.7. Giai đoạn AI Winter
+Page  21 [14.0pt]: 1.8. Sự chuyển dịch từ lập trình luật sang học máy
+Page  21 [14.0pt]: 1.9. Sự phát triển của Machine Learning
+Page  22 [13.0pt]: 1.9.1. Bài toán phân loại
+Page  22 [13.0pt]: 1.9.2. Bài toán hồi quy
+Page  23 [14.0pt]: 1.10. Sự phát triển của mạng nơ-ron nhân tạo
+Page  23 [14.0pt]: 1.11. Sự hình thành và phát triển của Deep Learning
+Page  24 [14.0pt]: 1.12. Sự phát triển của CNN trong xử lý hình ảnh
+Page  25 [14.0pt]: 1.13. Sự phát triển của RNN trong xử lý dữ liệu tuần tự
+Page  26 [14.0pt]: 1.14. Từ RNN đến LSTM và GRU
+Page  26 [14.0pt]: 1.15. Sự xuất hiện của các kiến trúc AI hiện đại
+Page  27 [14.0pt]: 1.16. Vai trò của dữ liệu trong sự phát triển của AI
+Page  27 [14.0pt]: 1.17. Từ mô hình AI đến hệ thống AI hoàn chỉnh
+Page  28 [14.0pt]: 1.18. Mối quan hệ giữa các giai đoạn phát triển của AI
+Page  29 [14.0pt]: 1.19. Những bài học từ quá trình phát triển AI
+Page  29 [14.0pt]: 1.20. Tiểu kết chương
+Page  31 [16.0pt]: CHƯƠNG 2. CÁC KỸ THUẬT MACHINE LEARNING CƠ BẢN
+Page  31 [14.0pt]: 2.1. Tổng quan về Machine Learning
+Page  31 [13.0pt]: ŷ = f(X)
+Page  32 [14.0pt]: 2.2. Học có giám sát
+Page  32 [13.0pt]: X → y
+Page  32 [13.0pt]: classification
+Page  32 [13.0pt]: regression
+Page  32 [13.0pt]: 2.2.1. Bài toán phân loại
+Page  32 [13.0pt]: binary classification
+Page  32 [13.0pt]: multi-class classification
+Page  32 [13.0pt]: 2.2.2. Bài toán hồi quy
+Page  33 [13.0pt]: ŷ = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ
+Page  33 [14.0pt]: 2.3. Học không giám sát
+Page  33 [13.0pt]: 2.3.1. Phân cụm K-Means
+Page  33 [13.0pt]: d(x, y) = √[(x₁ − y₁)² + (x₂ − y₂)² + ... + (xₙ − yₙ)²]
+Page  33 [13.0pt]: 2.3.2. Giảm chiều dữ liệu
+Page  34 [14.0pt]: 2.4. Biểu diễn dữ liệu trong Machine Learning
+Page  34 [13.0pt]: x = [x₁, x₂, ..., xₙ]
+Page  34 [13.0pt]: x = [diện tích, số phòng ngủ, số phòng
+Page  34 [13.0pt]: tắm, tuổi nhà, ...]
+Page  34 [13.0pt]: 2.4.1. Biến số và biến phân loại
+Page  34 [13.0pt]: Dữ liệu số
+Page  34 [13.0pt]: Dữ liệu phân loại
+Page  35 [13.0pt]: 2.4.2. Biểu diễn văn bản bằng TF-IDF
+Page  35 [13.0pt]: TF(t, d) = số lần từ t xuất hiện trong tài liệu d / tổng số từ trong tài liệu d
+Page  35 [13.0pt]: IDF(t) = log(N / DF(t))
+Page  35 [13.0pt]: TF-IDF(t, d) = TF(t, d) × IDF(t)
+Page  35 [14.0pt]: 2.5. Tiền xử lý dữ liệu
+Page  36 [13.0pt]: 2.5.1. Xử lý dữ liệu thiếu
+Page  36 [13.0pt]: 2.5.2. Phát hiện dữ liệu bất thường
+Page  36 [13.0pt]: IQR = Q₃ − Q₁
+Page  36 [13.0pt]: Lower Bound = Q₁ − 1.5 × IQR
+Page  36 [13.0pt]: Upper Bound = Q₃ + 1.5 × IQR
+Page  36 [13.0pt]: 2.5.3. Chuẩn hóa dữ liệu
+Page  36 [13.0pt]: z = (x − μ) / σ
+Page  37 [13.0pt]: x' = (x − x_min) / (x_max − x_min)
+Page  37 [14.0pt]: 2.6. Kỹ thuật hồi quy tuyến tính
+Page  37 [13.0pt]: ŷ = β₀ + β₁x
+Page  37 [13.0pt]: ŷ = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ
+Page  37 [14.0pt]: 2.7. Ridge và Lasso Regression
+Page  37 [13.0pt]: Loss = MSE + α × Σβᵢ²
+Page  37 [13.0pt]: Loss = MSE + α × Σ|βᵢ|
+Page  38 [14.0pt]: 2.8. Logistic Regression
+Page  38 [13.0pt]: z = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ
+Page  38 [13.0pt]: σ(z) = 1 / (1 + e⁻ᶻ)
+Page  38 [14.0pt]: 2.9. K-Nearest Neighbors
+Page  39 [14.0pt]: 2.10. Decision Tree
+Page  39 [13.0pt]: Tuổi > 50? → Có → Kiểm tra
+Page  39 [13.0pt]: BMI → ...
+Page  39 [14.0pt]: 2.11. Random Forest
+Page  39 [14.0pt]: 2.12. Support Vector Machine
+Page  40 [14.0pt]: 2.13. Naive Bayes
+Page  40 [13.0pt]: P(A|B) = P(B|A)P(A) / P(B)
+Page  40 [14.0pt]: 2.14. Đánh giá mô hình Machine Learning
+Page  41 [13.0pt]: 2.14.1. Accuracy
+Page  41 [13.0pt]: Accuracy = số dự đoán đúng / tổng số mẫu
+Page  41 [13.0pt]: 2.14.2. Precision
+Page  41 [13.0pt]: Precision = TP / (TP + FP)
+Page  41 [13.0pt]: 2.14.3. Recall
+Page  41 [13.0pt]: Recall = TP / (TP + FN)
+Page  41 [13.0pt]: 2.14.4. F1-score
+Page  41 [13.0pt]: F1 = 2 × Precision × Recall / (Precision + Recall)
+Page  41 [13.0pt]: 2.14.5. Confusion Matrix
+Page  42 [13.0pt]: 2.14.6. MAE, MSE và RMSE
+Page  42 [13.0pt]: MAE = (1/n) × Σ|yᵢ − ŷᵢ|
+Page  42 [13.0pt]: MSE = (1/n) × Σ(yᵢ − ŷᵢ)²
+Page  42 [13.0pt]: RMSE = √MSE
+Page  42 [13.0pt]: 2.14.7. R²
+Page  42 [13.0pt]: R² = 1 − [Σ(yᵢ − ŷᵢ)² / Σ(yᵢ − ȳ)²]
+Page  42 [16.0pt]: 2.15. Overfitting, Underfitting và khả năng tổng quát hóa
+Page  42 [13.0pt]: Underfitting
+Page  42 [13.0pt]: Overfitting
+Page  43 [16.0pt]: 2.16. Quy trình xây dựng một hệ thống Machine Learning
+Page  43 [13.0pt]: Xác định bài toán → Thu thập dữ liệu → Khám phá dữ liệu → Tiền xử lý → Biểu diễn
+Page  43 [13.0pt]: dữ liệu → Chia dữ liệu → Huấn luyện → Đánh giá → Lựa chọn mô hình → Lưu mô
+Page  43 [13.0pt]: hình → Triển khai
+Page  43 [16.0pt]: 2.17. Minh họa thực nghiệm với các bài toán Machine Learning
+Page  43 [14.0pt]: 2.17.1. Bài toán dự đoán nguy cơ bệnh tiểu đường
+Page  45 [13.0pt]: Nhận xét:
+Page  45 [13.0pt]: Nhận xét:
+Page  45 [14.0pt]: 2.17.2. Bài toán dự đoán giá nhà
+Page  46 [13.0pt]: Nhận xét:
+Page  47 [13.0pt]: Nhận xét:
+Page  47 [14.0pt]: 2.17.3. Bài toán phân tích hành vi khách hàng từ dữ liệu văn bản
+Page  47 [13.0pt]: data representation
+Page  48 [13.0pt]: Nhận xét:
+Page  48 [16.0pt]: 2.18. So sánh kết quả các bài toán thực nghiệm
+Page  48 [13.0pt]: Bài toán
+Page  48 [13.0pt]: Loại bài toán
+Page  48 [13.0pt]: Dạng dữ liệu
+Page  48 [13.0pt]: Mô hình nổi bật Metric tiêu biểu
+Page  49 [13.0pt]: đặc điểm của dữ liệu và bản chất
+Page  49 [13.0pt]: bài toán
+Page  49 [16.0pt]: 2.19. Cài đặt Machine Learning bằng Scratch, Keras và PyTorch
+Page  49 [13.0pt]: 2.19.1. Cài đặt theo hướng Scratch
+Page  49 [13.0pt]: ŷ = wx + b
+Page  49 [13.0pt]: w ← w − η × ∂L/∂w
+Page  49 [13.0pt]: b ← b − η × ∂L/∂b
+Page  53 [13.0pt]: 2.19.2. Cài đặt bằng Keras
+Page  53 [13.0pt]: Code xây dựng và huấn luyện mô hình bằng Keras:
+Page  54 [13.0pt]: 2.19.3. Cài đặt bằng PyTorch
+Page  54 [13.0pt]: Dataset → DataLoader → Model → Loss → Optimizer → Training Loop → Evaluation
+Page  54 [13.0pt]: Code xây dựng và train mô hình bằng PyTorch:
+Page  55 [16.0pt]: 2.20. Lưu mô hình và triển khai ứng dụng
+Page  55 [13.0pt]: Dữ liệu đầu vào → Preprocessing → Model → Prediction → Kết quả
+Page  56 [16.0pt]: 2.21. Demo dự đoán
+Page  56 [14.0pt]: 2.21.1. Giao diện hệ thống dự đoán bệnh tiểu đường
+Page  58 [14.0pt]: 2.21.2. Giao diện hệ thống dự đoán giá nhà
+Page  60 [13.0pt]: Nhận xét:
+Page  60 [16.0pt]: 2.22. Nhận xét chung về các kỹ thuật Machine Learning cơ bản
+Page  60 [13.0pt]: data representation
+Page  60 [16.0pt]: 2.23. Tiểu kết chương
+Page  61 [13.0pt]: Dữ liệu → Tiền xử lý → Biểu diễn → Huấn luyện → Đánh giá → Lưu mô hình → Triển
+Page  61 [13.0pt]: khai → Dự đoán
+Page  62 [16.0pt]: CHƯƠNG 3. CONVOLUTIONAL NEURAL NETWORK
+Page  62 [14.0pt]: 3.1. Tổng quan về Convolutional Neural Network
+Page  62 [13.0pt]: Ảnh đầu vào → Convolution → Activation → Pooling → Trích xuất đặc trưng → Fully
+Page  62 [13.0pt]: Connected → Dự đoán
+Page  63 [16.0pt]: 3.2. Từ mạng nơ-ron truyền thống đến CNN
+Page  63 [16.0pt]: 3.3. Dữ liệu đầu vào của CNN
+Page  63 [13.0pt]: C × H × W
+Page  63 [13.0pt]: 1 × 28 × 28
+Page  63 [13.0pt]: 3 × H × W
+Page  63 [13.0pt]: N × C × H × W
+Page  64 [16.0pt]: 3.4. Phép Convolution
+Page  64 [13.0pt]: Output(i,j) = ΣΣ
+Page  64 [13.0pt]: X(i+m,j+n) × K(m,n)
+Page  65 [16.0pt]: 3.5. Kernel và Parameter Sharing
+Page  65 [13.0pt]: parameter sharing
+Page  65 [16.0pt]: 3.6. Stride và Padding
+Page  65 [13.0pt]: 3.6.1. Stride
+Page  65 [13.0pt]: 3.6.2. Padding
+Page  66 [16.0pt]: 3.7. Kích thước Feature Map
+Page  66 [13.0pt]: Output = floor[(W − K + 2P) / S] + 1
+Page  66 [13.0pt]: Output = [(28 − 3 + 2 × 1) / 1] + 1 = 28
+Page  66 [13.0pt]: Output = [(28 − 3 + 2 × 1) / 2] + 1 = 14
+Page  66 [16.0pt]: 3.8. Hàm kích hoạt ReLU
+Page  66 [13.0pt]: ReLU(x) = max(0, x)
+Page  67 [16.0pt]: 3.9. Pooling Layer
+Page  67 [13.0pt]: 3.9.1. Max Pooling
+Page  67 [13.0pt]: [2 4]
+Page  67 [13.0pt]: 3.9.2. Average Pooling
+Page  67 [16.0pt]: 3.10. Fully Connected Layer
+Page  67 [13.0pt]: Feature Map → Flatten → Vector → Fully Connected → Output
+Page  68 [13.0pt]: P(y=i) = eᶻⁱ / Σeᶻʲ
+Page  68 [16.0pt]: 3.11. Hàm mất mát trong CNN
+Page  68 [13.0pt]: L = −Σ yᵢ log(pᵢ)
+Page  68 [16.0pt]: 3.12. Backpropagation và tối ưu mô hình
+Page  68 [13.0pt]: Forward → Tính Loss →
+Page  68 [13.0pt]: Backward → Cập nhật trọng số
+Page  68 [13.0pt]: θ ← θ − η ×
+Page  68 [13.0pt]: L(θ)
+Page  69 [16.0pt]: 3.13. Batch Normalization
+Page  69 [13.0pt]: x̂ = (x − μ) / √(σ² + ε)
+Page  69 [13.0pt]: y = γx̂ + β
+Page  69 [16.0pt]: 3.14. Residual Connection
+Page  69 [13.0pt]: H(x) = F(x) + x
+Page  70 [16.0pt]: 3.15. Attention trong CNN
+Page  70 [16.0pt]: 3.16. Các kiến trúc CNN tiêu biểu
+Page  70 [13.0pt]: 3.16.1. LeNet
+Page  70 [13.0pt]: 3.16.2. AlexNet
+Page  71 [13.0pt]: 3.16.3. VGG
+Page  71 [13.0pt]: phiên bản thích nghi
+Page  71 [16.0pt]: 3.17. Các kỹ thuật hạn chế Overfitting trong CNN
+Page  71 [13.0pt]: Dropout
+Page  71 [13.0pt]: Data Augmentation
+Page  71 [13.0pt]: Early Stopping
+Page  71 [13.0pt]: Regularization
+Page  72 [16.0pt]: 3.18. Các bộ dữ liệu sử dụng trong thực nghiệm
+Page  72 [13.0pt]: Dữ liệu ảnh → Conv2d
+Page  72 [13.0pt]: Dữ liệu dạng vector → Conv1d
+Page  72 [16.0pt]: 3.19. Dataset MNIST
+Page  72 [16.0pt]: 3.20. Dataset Fashion-MNIST
+Page  73 [16.0pt]: 3.21. Dataset Diabetes và CNN một chiều
+Page  73 [13.0pt]: Feature vector → 1 × N → Conv1d → Feature representation
+Page  73 [16.0pt]: 3.22. Thiết kế các mô hình CNN thực nghiệm
+Page  73 [13.0pt]: Mô hình
+Page  73 [13.0pt]: Đặc điểm chính
+Page  74 [13.0pt]: Mô hình
+Page  74 [13.0pt]: Đặc điểm
+Page  74 [13.0pt]: CNN cải tiến từ baseline
+Page  74 [13.0pt]: Các kiến trúc
+Page  74 [13.0pt]: CNN kinh điển được điều chỉnh
+Page  74 [16.0pt]: 3.23. Thiết lập quá trình huấn luyện
+Page  74 [13.0pt]: Thông số
+Page  74 [13.0pt]: Giá trị
+Page  75 [16.0pt]: 3.24. Kết quả thực nghiệm trên MNIST
+Page  75 [13.0pt]: Model
+Page  75 [13.0pt]: Accuracy
+Page  75 [13.0pt]: Parameters
+Page  75 [13.0pt]: 99,30%
+Page  75 [13.0pt]: 99,30% − 98,72% = 0,58 điểm phần trăm
+Page  76 [16.0pt]: 3.25. Kết quả thực nghiệm trên Fashion-MNIST
+Page  76 [13.0pt]: Model
+Page  76 [13.0pt]: Accuracy
+Page  76 [13.0pt]: Parameters
+Page  76 [13.0pt]: Thời gian (s)
+Page  76 [13.0pt]: 91,20%
+Page  77 [13.0pt]: 91,20% − 89,46% =
+Page  77 [13.0pt]: 1,74 điểm phần trăm
+Page  78 [16.0pt]: 3.26. Kết quả thực nghiệm trên Diabetes
+Page  78 [13.0pt]: Model
+Page  78 [13.0pt]: Parameters
+Page  78 [13.0pt]: Test Loss
+Page  78 [13.0pt]: Accuracy
+Page  78 [13.0pt]: 86,21%
+Page  78 [13.0pt]: 86,21% − 75,86% = 10,35 điểm phần
+Page  78 [13.0pt]: trăm
+Page  79 [13.0pt]: việc tăng độ phức tạp của kiến trúc không đồng nghĩa với việc
+Page  79 [13.0pt]: performance luôn tăng
+Page  79 [13.0pt]: Nhận xét:
+Page  80 [16.0pt]: 3.27. So sánh mức cải thiện của CNN
+Page  80 [13.0pt]: Dataset
+Page  80 [13.0pt]: Baseline M1
+Page  80 [13.0pt]: Mô hình tốt
+Page  80 [13.0pt]: nhất
+Page  80 [13.0pt]: Accuracy tốt
+Page  80 [13.0pt]: nhất
+Page  80 [13.0pt]: Cải thiện
+Page  81 [16.0pt]: 3.28. Đánh giá Precision, Recall và F1-score
+Page  81 [13.0pt]: Dataset
+Page  81 [13.0pt]: Model
+Page  81 [13.0pt]: Accuracy
+Page  81 [13.0pt]: Precision
+Page  81 [13.0pt]: Recall
+Page  81 [13.0pt]: F1-score
+Page  81 [16.0pt]: 3.29. Độ phức tạp và thời gian huấn luyện
+Page  82 [13.0pt]: accuracy, độ phức tạp và chi phí tính toán
+Page  82 [16.0pt]: 3.30. Phân tích kết quả
+Page  82 [16.0pt]: 3.31. So sánh CNN với Machine Learning truyền thống
+Page  82 [13.0pt]: Ảnh → Trích xuất đặc trưng → Vector → ML model
+Page  82 [13.0pt]: Ảnh → CNN → Feature
+Page  82 [13.0pt]: representation → Prediction
+Page  83 [16.0pt]: 3.33. Cài đặt CNN bằng PyTorch
+Page  83 [13.0pt]: Dataset → DataLoader → CNN → Loss → Optimizer → Backpropagation → Update
+Page  83 [16.0pt]: 3.34. Demo nhận dạng chữ số bằng CNN
+Page  83 [13.0pt]: Ảnh đầu vào → Resize/Normalize → CNN → Probability → Predicted Class
+Page  84 [16.0pt]: 3.35. Tiểu kết chương
+Page  86 [16.0pt]: CHƯƠNG 4. MẠNG NƠ-RON HỒI QUY RNN
+Page  86 [14.0pt]: 4.1. Tổng quan về RNN
+Page  86 [14.0pt]: 4.2. Nguyên lý hoạt động của RNN
+Page  86 [13.0pt]: h_t = tanh(W_x x_t + W_h h_(t-1) + b)
+Page  87 [13.0pt]: 4.2.1. Đặc điểm của dữ liệu tuần tự
+Page  87 [13.0pt]: 4.2.2. Timestep và Sequence
+Page  88 [13.0pt]: x₁ → x₂ → x₃ → ... → x₂₀ → dự đoán x₂₁
+Page  88 [13.0pt]: 4.2.3. Hidden State và bộ nhớ của RNN
+Page  88 [13.0pt]: x₁ → h₁ → x₂ → h₂ → x₃ → h₃ → ... → xₜ → hₜ
+Page  88 [13.0pt]: 4.2.4. Hiện tượng Vanishing Gradient và Exploding Gradient
+Page  88 [13.0pt]: Vanishing Gradient
+Page  88 [13.0pt]: Exploding Gradient
+Page  89 [13.0pt]: 4.2.5. Các dạng bài toán RNN
+Page  89 [13.0pt]: Many-to-One:
+Page  89 [13.0pt]: x₁, x₂, ..., xₜ → y
+Page  89 [13.0pt]: Many-to-Many:
+Page  89 [13.0pt]: x₁ → y₁, x₂ → y₂, ..., xₜ → yₜ
+Page  89 [13.0pt]: One-to-Many:
+Page  89 [14.0pt]: 4.3. Dữ liệu chuỗi thời gian
+Page  89 [13.0pt]: 4.3.1. Customer Behavior
+Page  90 [13.0pt]: 4.3.2. AAPL Stock
+Page  91 [14.0pt]: 4.4. Chuẩn bị dữ liệu cho RNN
+Page  91 [13.0pt]: Thành phần
+Page  91 [13.0pt]: Giá trị
+Page  91 [14.0pt]: 4.5. Thực nghiệm với PyTorch
+Page  92 [13.0pt]: Thông số
+Page  92 [13.0pt]: Giá trị
+Page  95 [14.0pt]: 4.6. Thực nghiệm với Keras
+Page  97 [14.0pt]: 4.7. Kết quả dự báo
+Page  97 [13.0pt]: MAE:
+Page  97 [13.0pt]: MSE:
+Page  97 [13.0pt]: RMSE:
+Page  97 [13.0pt]: R²:
+Page  97 [13.0pt]: Dataset
+Page  97 [13.0pt]: Framework
+Page  97 [13.0pt]: MAE
+Page  97 [13.0pt]: MSE
+Page  97 [13.0pt]: RMSE
+Page  98 [13.0pt]: PyTorch đạt RMSE thấp hơn Keras trên dataset Customer Behavior
+Page  98 [13.0pt]: nhưng lại cao hơn trên dataset AAPL Stock
+Page  98 [14.0pt]: 4.8. Phân tích kết quả trên Customer Behavior
+Page  99 [14.0pt]: 4.9. Phân tích kết quả trên AAPL
+Page 100 [14.0pt]: 4.10. So sánh PyTorch và Keras
+Page 100 [13.0pt]: Dataset
+Page 100 [13.0pt]: Kiến trúc
+Page 100 [13.0pt]: Framework MAE
+Page 100 [13.0pt]: MSE
+Page 100 [13.0pt]: RMSE
+Page 101 [14.0pt]: 4.11. Hạn chế và hướng phát triển
+Page 102 [14.0pt]: 4.12. Demo web
+Page 104 [14.0pt]: 4.13. Tiểu kết chương
+Page 105 [16.0pt]: CHƯƠNG 5. KNOWLEDGE GRAPH VÀ RETRIEVAL-
+Page 105 [16.0pt]: AUGMENTED GENERATION (RAG)
+Page 105 [14.0pt]: 5.1. Mở đầu
+Page 106 [13.0pt]: 5.1.1. Knowledge Graph và RAG: lịch sử phát triển
+Page 106 [13.0pt]: a) Quá trình hình thành và phát triển Knowledge Graph
+Page 107 [13.0pt]: b) Quá trình hình thành và phát triển RAG
+Page 108 [13.0pt]: c) Mối quan hệ giữa Knowledge Graph và RAG
+Page 109 [13.0pt]: 5.1.2. Vai trò và ý nghĩa của Knowledge Graph và RAG trong trí tuệ nhân tạo
+Page 109 [13.0pt]: a) Hỗ trợ quản lý và liên kết tri thức
+Page 109 [13.0pt]: b) Cung cấp ngữ cảnh bên ngoài cho mô hình ngôn ngữ lớn
+Page 109 [13.0pt]: c) Cải thiện khả năng truy xuất nguồn và kiểm tra thông tin
+Page 110 [13.0pt]: d) Hỗ trợ giải quyết câu hỏi phức tạp
+Page 110 [13.0pt]: e) Tăng khả năng mở rộng hệ thống AI
+Page 110 [13.0pt]: f) Ý nghĩa đối với chương nghiên cứu
+Page 111 [16.0pt]: 5.2. Knowledge Graph và Knowledge Base (KB)
+Page 111 [14.0pt]: 5.2.1. Khái niệm và mục tiêu xây dựng Knowledge Graph
+Page 112 [14.0pt]: 5.2.2. Mô hình hóa tri thức và cấu trúc đồ thị
+Page 114 [13.0pt]: Giải thích:
+Page 115 [13.0pt]: Giải thích:
+Page 116 [14.0pt]: 5.2.3. Lưu trữ KG bằng Neo4j và truy xuất tri thức
+Page 116 [13.0pt]: Giải thích:
+Page 117 [13.0pt]: Giải thích:
+Page 118 [13.0pt]: Giải thích:
+Page 119 [16.0pt]: 5.3. Retrieval-Augmented Generation (RAG)
+Page 119 [14.0pt]: 5.3.1. Khái niệm và nguyên lý hoạt động
+Page 119 [14.0pt]: 5.3.2. Chuẩn bị tài liệu và xây dựng kho RAG
+Page 120 [13.0pt]: Giải thích:
+Page 120 [14.0pt]: 5.3.3. Truy xuất tài liệu bằng TF-IDF và cosine similarity
+Page 122 [14.0pt]: 5.3.4. Kết hợp KG và RAG bằng Reciprocal Rank Fusion
+Page 123 [13.0pt]: rank
+Page 123 [13.0pt]: (d)
+Page 123 [13.0pt]: Giải thích:
+Page 124 [14.0pt]: 5.3.5. Vai trò của RAG trong hệ thống và giới hạn hiện tại
+Page 124 [14.0pt]: 5.3.6. Thử nghiệm so sánh phương pháp truy xuất TF-IDF và Embedding
+Page 124 [13.0pt]: Phương pháp thực hiện
+Page 125 [13.0pt]: Hit@5:
+Page 125 [13.0pt]: MRR (Mean Reciprocal Rank):
+Page 125 [13.0pt]: Thời gian truy xuất trung bình:
+Page 125 [13.0pt]: Kết quả so sánh trên toàn bộ bộ câu hỏi
+Page 125 [13.0pt]: Phương pháp
+Page 125 [13.0pt]: Số câu hỏi
+Page 125 [13.0pt]: Hit@5 (%)
+Page 125 [13.0pt]: MRR (%)
+Page 125 [13.0pt]: Thời gian trung
+Page 125 [13.0pt]: bình (ms)
+Page 125 [13.0pt]: Kết quả theo từng lĩnh vực
+Page 125 [13.0pt]: Lĩnh vực
+Page 125 [13.0pt]: Phương pháp
+Page 125 [13.0pt]: Hit@5 (%)
+Page 125 [13.0pt]: MRR (%)
+Page 125 [13.0pt]: Thời gian trung
+Page 125 [13.0pt]: bình (ms)
+Page 126 [13.0pt]: Nhận xét và giới hạn
+Page 127 [16.0pt]: 5.4. Knowledge Graph và RAG cho bộ dữ liệu bệnh tiểu đường
+Page 127 [16.0pt]: (Diabetes)
+Page 127 [14.0pt]: 5.4.1. Mục tiêu và đặc điểm dữ liệu
+Page 128 [14.0pt]: 5.4.2. Xây dựng Knowledge Graph cho Diabetes
+Page 129 [14.0pt]: 5.4.3. Truy xuất tri thức bằng KG và RAG
+Page 130 [14.0pt]: 5.4.4. Đánh giá khả năng truy xuất trên Diabetes
+Page 130 [13.0pt]: Phương pháp
+Page 130 [13.0pt]: Tỷ lệ truy xuất bằng chứng
+Page 130 [13.0pt]: đạt yêu cầu
+Page 130 [13.0pt]: Thời gian trung bình
+Page 131 [14.0pt]: 5.4.5. Nhận xét
+Page 131 [16.0pt]: 5.5. Knowledge Graph và RAG cho dữ liệu chứng khoán
+Page 131 [14.0pt]: 5.5.1. Mục tiêu và đặc điểm dữ liệu
+Page 132 [14.0pt]: 5.5.2. Chuẩn bị tài liệu tri thức chứng khoán
+Page 133 [14.0pt]: 5.5.3. Truy xuất bằng chứng bằng KG, RAG và KG+RAG
+Page 134 [14.0pt]: 5.5.4. Đánh giá khả năng truy xuất trên dữ liệu chứng khoán
+Page 134 [13.0pt]: Phương pháp
+Page 134 [13.0pt]: Hit@5
+Page 134 [13.0pt]: Thời gian truy xuất trung
+Page 134 [13.0pt]: bình
+Page 135 [14.0pt]: 5.5.5. Nhận xét
+Page 135 [16.0pt]: 5.6. Knowledge Graph và RAG cho dữ liệu giá vàng
+Page 135 [14.0pt]: 5.6.1. Mục tiêu và đặc điểm dữ liệu
+Page 136 [14.0pt]: 5.6.2. Chuẩn bị tài liệu tri thức giá vàng
+Page 137 [14.0pt]: 5.6.3. Truy xuất tri thức trên dữ liệu giá vàng
+Page 138 [14.0pt]: 5.6.4. Đánh giá khả năng truy xuất trên dữ liệu giá vàng
+Page 138 [13.0pt]: Phương pháp
+Page 138 [13.0pt]: Hit@5
+Page 138 [13.0pt]: Thời gian truy xuất trung
+Page 138 [13.0pt]: bình
+Page 139 [14.0pt]: 5.6.5. Nhận xét
+Page 139 [16.0pt]: 5.7. Deploy
+Page 139 [14.0pt]: 5.7.1. Mục tiêu triển khai
+Page 140 [14.0pt]: 5.7.2. Kiến trúc và các thành phần triển khai
+Page 140 [13.0pt]: Thành phần
+Page 140 [13.0pt]: Vai trò
+Page 142 [14.0pt]: 5.7.3. Backend và các API của hệ thống
+Page 142 [13.0pt]: KG-only:
+Page 142 [13.0pt]: RAG-only:
+Page 142 [13.0pt]: KG+RAG:
+Page 142 [13.0pt]: API
+Page 143 [13.0pt]: API
+Page 143 [14.0pt]: 5.7.4. Giao diện người dùng
+Page 143 [13.0pt]: Diabetes:
+Page 143 [13.0pt]: Chứng khoán:
+Page 143 [13.0pt]: Giá vàng:
+Page 144 [13.0pt]: Câu trả lời tổng hợp
+Page 144 [14.0pt]: 5.7.5. Quy trình chạy và sử dụng ứng dụng
+Page 144 [13.0pt]: Bước 1: Cài đặt thư viện
+Page 145 [13.0pt]: Bước 2: Cấu hình Neo4j và Gemini
+Page 145 [13.0pt]: Bước 3: Khởi chạy ứng dụng
+Page 145 [13.0pt]: Bước 4: Mở ứng dụng trên trình duyệt
+Page 145 [13.0pt]: Bước 5: Kiểm tra kết quả
+Page 146 [14.0pt]: 5.7.6. Minh họa quá trình truy xuất và tổng hợp câu trả lời
+Page 147 [14.0pt]: 5.7.7. Nhận xét về kết quả triển khai
+Page 150 [16.0pt]: TÀI LIỆU THAM KHẢO
+Page 151 [16.0pt]: PHỤ LỤC
+Page 151 [14.0pt]: 1. Bộ dữ liệu giá nhà
+Page 151 [14.0pt]: 2. Bộ dữ liệu đánh giá sản phẩm thời trang
+Page 151 [14.0pt]: 3. Bộ dữ liệu chữ số viết tay MNIST
+Page 151 [14.0pt]: 4. Bộ dữ liệu ảnh thời trang Fashion-MNIST
+Page 151 [14.0pt]: 5. Bộ dữ liệu Pima Indians Diabetes
+Page 152 [14.0pt]: 6. Bộ dữ liệu giao dịch bán lẻ trực tuyến
+Page 152 [14.0pt]: 7. Bộ dữ liệu Diabetes Health Indicators
+Page 152 [14.0pt]: 8. Bộ dữ liệu chứng khoán S&P 500
+Page 152 [14.0pt]: 9. Bộ dữ liệu giá vàng lịch sử
+Page 153 [13.0pt]: 10. Source code demo

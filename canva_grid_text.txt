@@ -1,0 +1,1222 @@
+Canva editor
+Loading finished
+Changes will be saved automatically
+
+Skip navigation
+
+Skip to main content
+
+File
+Viewing
+Share
+Sign up
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+16 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Message Passing — 3 bước
+
+Cơ chế trung tâm của nhiều kiến trúc GNN
+
+1
+
+MESSAGE
+
+›
+
+2
+
+AGGREGATE
+
+›
+
+3
+
+UPDATE
+
+HÀNG XÓM → THÔNG ĐIỆP → EMBEDDING MỚI
+
+02 / 04
+
+THÀNH VIÊN 2 / CƠ CHẾ GNN
+
+Message Passing — 3 bước
+
+Cơ chế trung tâm của nhiều kiến trúc GNN
+
+1
+
+MESSAGE
+
+›
+
+2
+
+AGGREGATE
+
+›
+
+3
+
+UPDATE
+
+HÀNG XÓM → THÔNG ĐIỆP → EMBEDDING MỚI
+
+DEEP GRAPH LEARNING • DIABETES PREDICTION
+
+16 / 44
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+10
+
+01  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+11 / 44
+
+THÀNH VIÊN 1  /  NỀN TẢNG ĐỒ THỊ
+
+Mạng tương đồng bệnh nhân
+
+Ví dụ xuyên suốt đề tài: Patient Similarity Network
+
+1
+
+Một node tương ứng một hồ sơ bệnh nhân
+
+2
+
+KNN tạo kết nối theo độ gần của vector đặc trưng
+
+3
+
+Đầu ra phục vụ các lớp Message Passing
+
+V = bệnh nhân   •   E = tương đồng
+
+CHUYỂN TIẾP → BIỂU DIỄN & GNN
+
+11
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+12 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Graph Representation Learning
+
+Học vector mang thông tin từ đặc trưng và cấu trúc
+
+1
+
+Đầu vào: ma trận X và các cạnh E
+
+2
+
+Node embedding hᵢ là vector do mạng học được
+
+3
+
+Embedding không đồng nghĩa với chỉ số y khoa gốc
+
+INPUT
+
+→
+
+LAYER 1
+
+→
+
+LAYER 2
+
+→
+
+OUTPUT
+
+12
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+13 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Ba cấp độ biểu diễn
+
+Node – Edge – Graph embedding
+
+✦
+
+NODE / EDGE EMBEDDING
+
+Node: biểu diễn từng bệnh nhân
+
+
+
+
+Edge: biểu diễn quan hệ hoặc cặp node
+
+✦
+
+GRAPH EMBEDDING
+
+Tóm tắt toàn đồ thị bằng pooling / readout
+
+
+
+
+Đề tài chủ yếu cần node embedding
+
+13
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+14 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Ba dạng bài toán trên đồ thị
+
+Phân loại node là tác vụ của nhóm
+
+✦
+
+NODE CLASSIFICATION
+
+Dự đoán nhãn diabetes của từng bệnh nhân
+
+
+
+
+Sử dụng embedding hᵢ của node
+
+✦
+
+LINK / GRAPH TASKS
+
+Link prediction: dự đoán cạnh
+
+
+
+
+Graph classification: dự đoán nhãn toàn đồ thị
+
+14
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+15 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Tại sao không chỉ dùng MLP?
+
+MLP học đặc trưng riêng; GNN có thể tổng hợp thông tin láng giềng
+
+1
+
+MLP xử lý trực tiếp feature vector của node
+
+2
+
+GNN trao đổi thông tin qua các liên kết đồ thị
+
+3
+
+Sự hữu ích phụ thuộc chất lượng các cạnh đã tạo
+
+TABULAR
+
+GRAPH
+
+15
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+16 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Message Passing — 3 bước
+
+Cơ chế trung tâm của nhiều kiến trúc GNN
+
+1
+
+MESSAGE
+
+›
+
+2
+
+AGGREGATE
+
+›
+
+3
+
+UPDATE
+
+HÀNG XÓM → THÔNG ĐIỆP → EMBEDDING MỚI
+
+16
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+17 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Các phép tổng hợp hàng xóm
+
+Aggregation phải không phụ thuộc thứ tự node
+
+1
+
+SUM: giữ thông tin về số lượng láng giềng
+
+2
+
+MEAN / MAX: trung bình hoặc giữ đặc trưng trội
+
+3
+
+ATTENTION: trọng số đóng góp được học
+
+17
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+18 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Ví dụ Mean Aggregation
+
+Minh họa tính bằng tay trên bệnh nhân D
+
+1
+
+hA = (0,8; 0,9),  hB = (0,6; 0,7)
+
+2
+
+mD = Mean(hA, hB) = (0,7; 0,8)
+
+3
+
+hD mới = 0,5 hD + 0,5 mD = (0,55; 0,70)
+
+INPUT
+
+→
+
+LAYER 1
+
+→
+
+LAYER 2
+
+→
+
+OUTPUT
+
+VÍ DỤ MINH HỌA — KHÔNG PHẢI KẾT QUẢ HUẤN LUYỆN
+
+18
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+19 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Một lớp và nhiều lớp GNN
+
+Từ thông tin 1-hop đến 2-hop
+
+1
+
+Layer 1: tổng hợp tín hiệu từ láng giềng trực tiếp
+
+2
+
+Layer 2: có thể nhận tác động của node cách 2 cạnh
+
+3
+
+Quá nhiều lớp có thể gây over-smoothing
+
+19
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+20 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Graph Convolutional Network
+
+Tích chập dựa trên ma trận kề được chuẩn hóa
+
+1
+
+Self-loop: Ã = A + I
+
+2
+
+Chuẩn hóa đối xứng theo bậc node
+
+3
+
+Biến đổi đặc trưng qua ma trận trọng số W
+
+INPUT
+
+→
+
+LAYER 1
+
+→
+
+LAYER 2
+
+→
+
+OUTPUT
+
+H⁽ˡ⁺¹⁾ = σ(D̃⁻¹ᐟ² Ã D̃⁻¹ᐟ² H⁽ˡ⁾ W⁽ˡ⁾)
+
+20
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+21 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+GraphSAGE — Sampling & Aggregate
+
+Thích hợp khi cần lấy mẫu láng giềng
+
+1
+
+Neighbor sampling giới hạn số hàng xóm xử lý
+
+2
+
+Kết hợp feature node với thông tin láng giềng
+
+3
+
+Khả năng inductive phụ thuộc điều kiện dữ liệu và đồ thị
+
+V = bệnh nhân   •   E = tương đồng
+
+21
+
+02  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+22 / 44
+
+THÀNH VIÊN 2  /  CƠ CHẾ GNN
+
+Graph Attention Network
+
+Học mức quan trọng khác nhau của láng giềng
+
+1
+
+Attention tạo hệ số đóng góp αᵢⱼ
+
+2
+
+Multi-head attention mở rộng biểu diễn
+
+3
+
+So sánh GCN, GraphSAGE, GAT theo chi phí và chất lượng
+
+KHỞI ĐẦU ĐỀ XUẤT: GCN 2 LỚP
+
+22
+
+03  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+23 / 44
+
+THÀNH VIÊN 3  /  DỮ LIỆU & ĐỒ THỊ
+
+Bài toán dự đoán tiểu đường
+
+Phân loại nhị phân ở mức node bệnh nhân
+
+1
+
+Đầu vào: các đặc trưng nhân khẩu và y sinh
+
+2
+
+Nhãn diabetes ∈ {0, 1}
+
+3
+
+Mục tiêu nghiên cứu — không thay thế chẩn đoán lâm sàng
+
+NODE  •  hồ sơ bệnh nhân
+
+EDGE  •  tương đồng KNN
+
+X  •  các đặc trưng lâm sàng
+
+Y  •  nhãn diabetes
+
+23
+
+03  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+24 / 44
+
+THÀNH VIÊN 3  /  DỮ LIỆU & ĐỒ THỊ
+
+Bộ dữ liệu nghiên cứu
+
+Các bản ghi bệnh nhân và biến mục tiêu
+
+1
+
+Bộ dữ liệu khoảng 100.000 bản ghi theo report
+
+2
+
+Các biến: age, bmi, HbA1c, glucose, v.v.
+
+3
+
+Đánh giá chất lượng và giới hạn tính đại diện
+
+NODE  •  hồ sơ bệnh nhân
+
+EDGE  •  tương đồng KNN
+
+X  •  các đặc trưng lâm sàng
+
+Y  •  nhãn diabetes
+
+SỐ LIỆU QUY MÔ TRÍCH TỪ REPORT
+
+24
+
+03  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+25 / 44
+
+THÀNH VIÊN 3  /  DỮ LIỆU & ĐỒ THỊ
+
+Nhóm đặc trưng lâm sàng
+
+Feature engineering cần phản ánh dữ liệu gốc
+
+✦
+
+ĐẶC TRƯNG ĐỊNH LƯỢNG
+
+Tuổi, BMI, HbA1c, đường huyết
+
+
+
+
+Kiểm tra phân phối và ngoại lệ
+
+✦
+
+ĐẶC TRƯNG PHÂN LOẠI
+
+Giới tính, hút thuốc, tăng huyết áp, bệnh tim
+
+
+
+
+Cần mã hóa nhất quán trước khi học
+
+25
+
+03  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+26 / 44
+
+THÀNH VIÊN 3  /  DỮ LIỆU & ĐỒ THỊ
+
+Khảo sát và chất lượng dữ liệu
+
+EDA giúp phát hiện các vấn đề trước huấn luyện
+
+1
+
+Kiểm tra missing values và bản ghi trùng
+
+2
+
+Quan sát phân phối đặc trưng, độ lệch nhãn
+
+3
+
+Đánh giá giới hạn của dữ liệu tổng hợp
+
+NODE  •  hồ sơ bệnh nhân
+
+EDGE  •  tương đồng KNN
+
+X  •  các đặc trưng lâm sàng
+
+Y  •  nhãn diabetes
+
+26
+
+03  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+27 / 44
+
+THÀNH VIÊN 3  /  DỮ LIỆU & ĐỒ THỊ
+
+Tiền xử lý có kiểm soát
+
+Không làm rò rỉ thông tin tập kiểm thử
+
+1
+
+Xử lý thiếu, trùng và kiểm tra giá trị ngoại lệ
+
+›
+
+2
+
+Mã hóa các cột dạng category
+
+›
+
+3
+
+Fit bộ biến đổi trên train, sau đó transform val/test
+
+27
+
+03  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+28 / 44
+
+THÀNH VIÊN 3  /  DỮ LIỆU & ĐỒ THỊ
+
+Chuẩn hóa đặc trưng
+
+Đặc biệt quan trọng khi tạo cạnh bằng khoảng cách
+
+1
+
+Các biến có thang đo khác nhau
+
+2
+
+Distance-based KNN có thể bị chi phối bởi feature lớn
+
+3
+
+Bộ scaler chỉ học tham số từ train
+
+INPUT
+
+→
+
+LAYER 1
+
+→
+
+LAYER 2
+
+→
+
+OUTPUT
+
+28
+
+03  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+29 / 44
+
+THÀNH VIÊN 3  /  DỮ LIỆU & ĐỒ THỊ
+
+Train – Validation – Test
+
+Ba tập có vai trò khác nhau
+
+1
+
+TRAIN: học tham số mô hình
+
+2
+
+VALIDATION: chọn kiến trúc và siêu tham số
+
+3
+
+TEST: đánh giá cuối cùng, không dùng để tinh chỉnh
+
+TRAIN
+
+VALIDATION
+
+TEST
+
+29
+
+03  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+30 / 44
+
+THÀNH VIÊN 3  /  DỮ LIỆU & ĐỒ THỊ
+
+Từ bảng sang Patient Similarity Network
+
+Xây đồ thị KNN dựa trên dữ liệu đã tiền xử lý
+
+1
+
+Mỗi hàng dữ liệu trở thành một node
+
+2
+
+Nối node với k hồ sơ gần nhất trong không gian feature
+
+3
+
+Không dùng nhãn diabetes để tính độ tương đồng
+
+V = bệnh nhân   •   E = tương đồng
+
+KHÔNG DÙNG NHÃN ĐỂ TẠO CẠNH
+
+30
+
+03  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+31 / 44
+
+THÀNH VIÊN 3  /  DỮ LIỆU & ĐỒ THỊ
+
+Hai phương án đồ thị
+
+Cần so sánh thực nghiệm thay vì giả định phương án thắng
+
+✦
+
+BASELINE KNN GRAPH
+
+Dùng các láng giềng gần nhất
+
+
+
+
+Cạnh nhị phân / cách tạo đơn giản
+
+✦
+
+CLINICALLY WEIGHTED
+
+Cân nhắc trọng số theo ý nghĩa đặc trưng
+
+
+
+
+Thử nghiệm ngưỡng và trọng số cạnh
+
+31
+
+03  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+32 / 44
+
+THÀNH VIÊN 3  /  DỮ LIỆU & ĐỒ THỊ
+
+Kiểm soát Data Leakage
+
+Điểm then chốt để so sánh mô hình công bằng
+
+1
+
+Không đưa nhãn diabetes vào xây dựng cạnh
+
+2
+
+Quy định rõ giao thức transductive / inductive
+
+3
+
+Kiểm tra quy trình split, scaling và KNN
+
+CHUYỂN TIẾP → HUẤN LUYỆN & ĐÁNH GIÁ
+
+32
+
+04  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+33 / 44
+
+THÀNH VIÊN 4  /  HUẤN LUYỆN & ĐÁNH GIÁ
+
+Pipeline huấn luyện và đánh giá
+
+Quy trình xuyên suốt từ dữ liệu đến dự đoán
+
+1
+
+CHUẨN BỊ
+
+›
+
+2
+
+TẠO ĐỒ THỊ
+
+›
+
+3
+
+TRAIN / VAL
+
+›
+
+4
+
+TEST
+
+33
+
+04  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+34 / 44
+
+THÀNH VIÊN 4  /  HUẤN LUYỆN & ĐÁNH GIÁ
+
+PyTorch Geometric
+
+Các thành phần dữ liệu của mô hình đồ thị
+
+1
+
+x: node features; edge_index: danh sách cạnh
+
+2
+
+y: node labels; train_mask / val_mask / test_mask
+
+3
+
+GCNConv, SAGEConv và GATConv hỗ trợ các kiến trúc
+
+NODE  •  hồ sơ bệnh nhân
+
+EDGE  •  tương đồng KNN
+
+X  •  các đặc trưng lâm sàng
+
+Y  •  nhãn diabetes
+
+34
+
+04  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+35 / 44
+
+THÀNH VIÊN 4  /  HUẤN LUYỆN & ĐÁNH GIÁ
+
+Kiến trúc GCN khởi tạo
+
+Một cấu hình khởi đầu để kiểm chứng
+
+1
+
+Input features → GCN hidden → activation / dropout
+
+2
+
+GCN đầu ra → logit dự đoán nhị phân
+
+3
+
+Số layer và hidden channels điều chỉnh qua validation
+
+INPUT
+
+→
+
+LAYER 1
+
+→
+
+LAYER 2
+
+→
+
+OUTPUT
+
+35
+
+04  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+36 / 44
+
+THÀNH VIÊN 4  /  HUẤN LUYỆN & ĐÁNH GIÁ
+
+Loss, Backpropagation, Optimizer
+
+Phân biệt cập nhật embedding với cập nhật trọng số
+
+1
+
+Forward pass: tạo logit và dự đoán
+
+›
+
+2
+
+Tính loss trên các node thuộc train
+
+›
+
+3
+
+Backward và optimizer cập nhật tham số W
+
+36
+
+04  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+37 / 44
+
+THÀNH VIÊN 4  /  HUẤN LUYỆN & ĐÁNH GIÁ
+
+Epoch, Early Stopping, Hyperparameters
+
+Theo dõi học và phòng chống overfitting
+
+1
+
+Learning rate, dropout, weight decay
+
+2
+
+Validation loss giúp phát hiện quá khớp
+
+3
+
+Early stopping lưu checkpoint tốt nhất
+
+INPUT
+
+→
+
+LAYER 1
+
+→
+
+LAYER 2
+
+→
+
+OUTPUT
+
+37
+
+04  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+38 / 44
+
+THÀNH VIÊN 4  /  HUẤN LUYỆN & ĐÁNH GIÁ
+
+Baseline 1 — Logistic Regression
+
+Mốc tham chiếu đơn giản, có thể giải thích
+
+1
+
+Dự đoán xác suất bằng hàm sigmoid
+
+2
+
+Học từ đặc trưng từng bệnh nhân
+
+3
+
+Ưu điểm: dễ huấn luyện và giải thích
+
+INPUT
+
+→
+
+LAYER 1
+
+→
+
+LAYER 2
+
+→
+
+OUTPUT
+
+38
+
+04  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+39 / 44
+
+THÀNH VIÊN 4  /  HUẤN LUYỆN & ĐÁNH GIÁ
+
+Baseline 2 — Random Forest
+
+Mô hình tập hợp nhiều cây quyết định
+
+1
+
+Học quan hệ phi tuyến trong dữ liệu bảng
+
+2
+
+Giảm phụ thuộc một cây riêng lẻ
+
+3
+
+Cần đánh giá cùng giao thức với GNN
+
+39
+
+04  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+40 / 44
+
+THÀNH VIÊN 4  /  HUẤN LUYỆN & ĐÁNH GIÁ
+
+Đánh giá trên Confusion Matrix
+
+Trong bài toán y tế cần chú ý false negatives
+
+✦
+
+PREDICT POSITIVE
+
+True Positive (TP)
+
+
+
+
+False Positive (FP)
+
+✦
+
+PREDICT NEGATIVE
+
+False Negative (FN)
+
+
+
+
+True Negative (TN)
+
+40
+
+04  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+41 / 44
+
+THÀNH VIÊN 4  /  HUẤN LUYỆN & ĐÁNH GIÁ
+
+Precision – Recall – F1 – ROC-AUC
+
+Không chỉ nhìn Accuracy
+
+PRECISION
+
+TP / (TP + FP): độ chính xác dự đoán dương tính
+
+RECALL
+
+TP / (TP + FN): độ nhạy phát hiện ca bệnh
+
+F1 / ROC-AUC
+
+F1 cân bằng Precision và Recall; AUC đo khả năng phân biệt
+
+41
+
+04  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+42 / 44
+
+THÀNH VIÊN 4  /  HUẤN LUYỆN & ĐÁNH GIÁ
+
+Mất cân bằng nhãn và độ tin cậy
+
+Đánh giá cả hiệu quả phát hiện và tính ổn định
+
+1
+
+Class weights và threshold moving
+
+2
+
+Nhiều random seed, lưu cấu hình và checkpoint
+
+3
+
+Không kết luận GNN tốt hơn khi chưa có kết quả
+
+42
+
+04  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+43 / 44
+
+THÀNH VIÊN 4  /  HUẤN LUYỆN & ĐÁNH GIÁ
+
+Thiết kế thực nghiệm và bước tiếp theo
+
+So sánh trên cùng dữ liệu, chỉ số và điều kiện
+
+1
+
+Logistic Regression / Random Forest / GCN
+
+2
+
+Phân tích Recall, ROC-AUC, FN và thời gian chạy
+
+3
+
+Kiểm tra ảnh hưởng của k, cấu trúc cạnh và kiến trúc
+
+TABULAR
+
+GRAPH
+
+ĐÂY LÀ KẾ HOẠCH THỬ NGHIỆM, KHÔNG PHẢI KẾT QUẢ
+
+43
+
+04  /  04
+
+DEEP GRAPH LEARNING  •  DIABETES PREDICTION
+
+44 / 44
+
+KẾT LUẬN  /  Q&A
+
+TỪ DỮ LIỆU BẢNG
+
+ĐẾN HỌC SÂU ĐỒ THỊ
+
+Bài toán: dự đoán nhãn diabetes theo bệnh nhân
+
+Cách tiếp cận: KNN Graph + Message Passing + GNN
+
+Kiểm chứng: so sánh công bằng với các mô hình Baseline
+
+CẢM ƠN THẦY/CÔ VÀ CÁC BẠN ĐÃ LẮNG NGHE!
+
+44
+
+The main navigation contains buttons for document level options. To switch between buttons, use the left and right keys and to activate, press Enter. To skip to the canvas, press “Ctrl+F2”.
+Canvas
+The canvas is where your design is. To navigate into the page, press Enter. To navigate into groups or elements on the page, press Enter again. Press tab to move to the next page, group, or element. To operate the toolbar, use the “Ctrl+F1” key. If an element is selected, move it using the arrow keys; rotate using the “,” key and “.” key; and resize using the arrow keys with the “Ctrl” key. All of these keys can be modified with the “Shift” key to increase increment.
+The side panel is where you can apply templates or add elements. To skip to the canvas, press “Ctrl+F2”.
+Close grid view
+Present full screen
+Help
+Share
+This button opens the menu with all the options to share and print your design.

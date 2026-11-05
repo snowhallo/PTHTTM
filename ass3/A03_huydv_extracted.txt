@@ -1,0 +1,723 @@
+=== PAGE 1 ===
+     BỘ KHOA HỌC VÀ CÔNG NGHỆ 
+HỌC VIỆN CÔNG NGHỆ BƯU CHÍNH VIỄN THÔNG 
+ 
+ 
+ 
+ 
+           BÁO CÁO ASSIGNMENT 03 
+                MẠNG NƠ-RON VÀ HỌC BIỂU DIỄN TRÊN DỮ LIỆU BẢNG 
+ 
+ 
+Giảng viên hướng dẫn: Trần Đình Quế 
+Sinh viên thực hiện: Đinh Viết Huy 
+Mã sinh viên: B23DCCN381 
+Nhóm lớp: 06 
+ 
+ 
+ 
+   
+ Hà Nội – 2026
+
+
+=== PAGE 2 ===
+1 
+MỤC LỤC 
+CHƯƠNG I. BẢN CHẤT LÝ THUYẾT VÀ TỰ CÀI ĐẶT MẠNG NƠ-RON ...... 3 
+1. Bản chất toán học của Học sâu: Phép hợp các hàm tham số hóa .......................... 3 
+1.1. So sánh mô hình truyền thống và mô hình sâu ................................................... 3 
+1.2. Cấu trúc toán học bên trong một nơ-ron và một tầng ẩn .................................... 3 
+2. Phân biệt Đặc trưng tự thiết kế (Hand-crafted Features) và Biểu diễn học được 
+(Learned Representation) ........................................................................................... 3 
+3. Chu trình huấn luyện 4 bước .................................................................................. 3 
+4. Đối chiếu cài đặt: NumPy From Scratch so với PyTorch Framework .................. 3 
+CHƯƠNG II. THIẾT KẾ KIẾN TRÚC MẠNG HỌC SÂU 5 TẦNG VÀ PHÂN 
+TÍCH TENSOR SHAPES .......................................................................................... 9 
+1. Tổng quan kiến trúc mạng MLP 5 tầng (5-Layer Deep Neural Network 
+Architecture) ............................................................................................................... 9 
+2. Bảng đặc tả chi tiết kích thước Tensor và Không gian tham số ............................ 9 
+3. Cấu hình chi tiết mạng 5 tầng cho 3 bài toán thực tế ........................................... 10 
+3.1. Bài toán 1 - Chẩn đoán bệnh tiểu đường (Diabetes Prediction - Binary 
+Classification) ........................................................................................................... 10 
+3.2. Bài toán 2 - Định giá bất động sản (House Price Prediction - Regression) ...... 10 
+3.3. Bài toán 3 - Phân loại mức độ quan tâm khách hàng (Customer Interest - 
+Multiclass Classification) ......................................................................................... 10 
+3.4. Giải thích bản chất phân cấp biểu diễn (Hierarchical Representation Learning)10 
+CHƯƠNG III. TIẾN HÀNH THỰC NGHIỆM ĐỐI SÁNH .................................. 13 
+A. Bài toán 1 Diabetes Prediction ............................................................................ 13 
+1. Thiết lập thực nghiệm và quy trình triển khai từng bước .................................... 13 
+B. Bài toán 2 House Price Prediction ....................................................................... 16 
+1. Thiết lập thực nghiệm hồi quy từng bước ............................................................ 16 
+
+=== PAGE 3 ===
+2 
+C. Bài toán 3 Customer Interest Prediction .............................................................. 19 
+1. Thiết lập thực nghiệm đa lớp từng bước .............................................................. 19 
+CHƯƠNG IV. TRỰC QUAN HÓA VÀ PHÂN TÍCH BIỂU DIỄN HỌC ĐƯỢC 24 
+A. BÀI TOÁN 1: DIABETES PREDICTION......................................................... 24 
+1. Phân tích biểu đồ đường cong huấn luyện ........................................................... 24 
+2. Phân tích Ma trận nhầm lẫn (Confusion Matrix) trên Tập kiểm thử ................... 24 
+3. So sánh khoa học giữa ba mô hình trong bài toán Diabetes ................................ 24 
+B. BÀI TOÁN 2: HOUSE PRICE ........................................................................... 28 
+1. Phân tích biểu đồ đường cong huấn luyện hồi quy .............................................. 28 
+2. Phân tích đồ thị tương quan giữa Giá thực tế và Giá dự đoán (Scatter Plot) ...... 28 
+3. Lý giải nguyên nhân sai số thực tế (MAE, RMSE) và giải pháp khắc phục ....... 28 
+C. BÀI TOÁN 3: CUSTOMER INTEREST PREDICTION .................................. 32 
+1. Phân tích đường cong huấn luyện Cross-Entropy................................................ 32 
+2. Phân tích Ma trận nhầm lẫn đa lớp (Confusion Matrix) ...................................... 32 
+3. Thảo luận khoa học về hiệu quả Deep Learning trên dữ liệu khách hàng ........... 32 
+CHƯƠNG V. TỔNG KẾT VÀ ĐÁNH GIÁ TOÀN DIỆN .................................... 37 
+1. Tổng kết kết quả thực nghiệm qua 3 bài toán nghiên cứu ................................... 37 
+2. Đúc kết các quy luật khoa học về Mạng nơ-ron sâu (Core Technical Insights) .. 37 
+3. Hạn chế của hệ thống và Hướng phát triển tiếp theo ........................................... 37 
+ 
+  
+
+=== PAGE 4 ===
+3 
+CHƯƠNG I. BẢN CHẤT LÝ THUYẾT VÀ TỰ CÀI ĐẶT MẠNG NƠ-RON 
+1. Bản chất toán học của Học sâu: Phép hợp các hàm tham số hóa 
+Deep Learning là phép hợp nhiều hàm tham số hóa. Một neuron tính z = wᵀx + b và 
+a = f(z). Với tầng l: z^(l)=W^(l)a^(l-1)+b^(l), a^(l)=ReLU(z^(l)). 
+1.1. So sánh mô hình truyền thống và mô hình sâu 
+1.2. Cấu trúc toán học bên trong một nơ-ron và một tầng ẩn 
+2. Phân biệt Đặc trưng tự thiết kế (Hand-crafted Features) và Biểu diễn học 
+được (Learned Representation) 
+Đặc trưng tự thiết kế do người xây dựng lựa chọn; biểu diễn học được là vector ẩn 
+h=ReLU(Wx+b) được tối ưu đồng thời với mục tiêu dự đoán. 
+3. Chu trình huấn luyện 4 bước 
+Mini-batch → Forward → Loss → Backward theo chain rule → Adam step. BCE 
+dùng cho nhị phân, CrossEntropyLoss cho đa lớp và MSE cho hồi quy. 
+4. Đối chiếu cài đặt: NumPy From Scratch so với PyTorch Framework 
+NumPy làm rõ phép toán ma trận và gradient; PyTorch tự động hóa autograd, 
+DataLoader và optimizer. Notebook cell [3] hiển thị trực tiếp models.py và 
+training.py. 
+
+=== PAGE 5 ===
+4 
+ 
+
+
+=== PAGE 6 ===
+5 
+Hình I.1. Executed notebook: 01_diabetes_deep_learning-cell-03-part-01 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [3] trong JupyterLab đã chạy; cell này 
+hiển thị trực tiếp mã nguồn model và vòng lặp huấn luyện được sử dụng. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+
+=== PAGE 7 ===
+6 
+ 
+
+
+=== PAGE 8 ===
+7 
+Hình I.2. Executed notebook: 01_diabetes_deep_learning-cell-03-part-02 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [3] trong JupyterLab đã chạy; cell này 
+hiển thị trực tiếp mã nguồn model và vòng lặp huấn luyện được sử dụng. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+ 
+
+
+=== PAGE 9 ===
+8 
+Hình I.3. Executed notebook: 01_diabetes_deep_learning-cell-03-part-03 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [3] trong JupyterLab đã chạy; cell này 
+hiển thị trực tiếp mã nguồn model và vòng lặp huấn luyện được sử dụng. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+  
+
+=== PAGE 10 ===
+9 
+CHƯƠNG II. THIẾT KẾ KIẾN TRÚC MẠNG HỌC SÂU 5 TẦNG VÀ 
+PHÂN TÍCH TENSOR SHAPES 
+1. Tổng quan kiến trúc mạng MLP 5 tầng (5-Layer Deep Neural Network 
+Architecture) 
+Kiến trúc dùng năm Linear: input → 128 → 64 → 32 → 16 → output. Bốn tầng ẩn 
+dùng ReLU; tầng cuối sinh logit hoặc giá trị hồi quy. 
+2. Bảng đặc tả chi tiết kích thước Tensor và Không gian tham số 
+Bài toán Input Hidden dims Output Tham số 
+Dự đoán bệnh tiểu 
+đường 
+76 128→64→32→16 1 20,737 
+Dự đoán giá nhà 293 128→64→32→16 1 48,513 
+Phân loại mức độ quan 
+tâm khách hàng 
+3003 128→64→32→16 5 395,461 
+ 
+Số tham số Linear bằng in_features×out_features+out_features. Customer interest 
+có 3003 chiều nên lớp đầu tiên làm số tham số tăng mạnh. 
+
+=== PAGE 11 ===
+10 
+3. Cấu hình chi tiết mạng 5 tầng cho 3 bài toán thực tế 
+3.1. Bài toán 1 - Chẩn đoán bệnh tiểu đường (Diabetes Prediction - Binary 
+Classification) 
+3.2. Bài toán 2 - Định giá bất động sản (House Price Prediction - Regression) 
+3.3. Bài toán 3 - Phân loại mức độ quan tâm khách hàng (Customer Interest - Multiclass 
+Classification) 
+3.4. Giải thích bản chất phân cấp biểu diễn (Hierarchical Representation Learning) 
+ 
+Hình II.1. Executed notebook: 01_diabetes_deep_learning-cell-02 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [2] trong JupyterLab đã chạy; cell này 
+khai báo epochs, batch size, learning rate, optimizer, seed và hidden dimensions. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+
+
+=== PAGE 12 ===
+11 
+ 
+Hình II.2. Executed notebook: 02_house_price_deep_learning-cell-02 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [2] trong JupyterLab đã chạy; cell này 
+khai báo epochs, batch size, learning rate, optimizer, seed và hidden dimensions. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+ 
+Hình II.3. Executed notebook: 03_customer_interest_deep_learning-cell-02 
+
+
+=== PAGE 13 ===
+12 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [2] trong JupyterLab đã chạy; cell này 
+khai báo epochs, batch size, learning rate, optimizer, seed và hidden dimensions. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+  
+
+=== PAGE 14 ===
+13 
+CHƯƠNG III. TIẾN HÀNH THỰC NGHIỆM ĐỐI SÁNH 
+Trong cả ba notebook, cell [2] khai báo epochs=8, batch_size=128, 
+learning_rate=0,001, optimizer=Adam, seed=42 và hidden_dims=[128,64,32,16]. 
+Cell [3] hiển thị mã model/training; cell [4] đọc metadata/results; cell [5] hiển thị 
+biểu đồ; cell [6] hiển thị kết quả đã lưu. 
+A. Bài toán 1 Diabetes Prediction 
+1. Thiết lập thực nghiệm và quy trình triển khai từng bước 
+Mô hình Accuracy Precision Recall F1 MAE RMSE R² Tham số Giây 
+MLP cơ 
+sở 
+0.9573 
+(95.73%) 
+0.8478 
+(84.78%) 
+0.6094 
+(60.94%) 
+0.7091 
+(70.91%) 
+- - - 4,993 0.505 
+MLP sâu 
+hơn 
+0.9560 
+(95.60%) 
+0.7719 
+(77.19%) 
+0.6875 
+(68.75%) 
+0.7273 
+(72.73%) 
+- - - 7,041 0.574 
+MLP 5 
+lớp 
+0.9507 
+(95.07%) 
+0.7455 
+(74.55%) 
+0.6406 
+(64.06%) 
+0.6891 
+(68.91%) 
+- - - 20,737 0.673 
+ 
+Theo F1, MLP sâu hơn tốt nhất với accuracy=0.9560, precision=0.7719, 
+recall=0.6875, F1=0.7273. 
+
+=== PAGE 15 ===
+14 
+ 
+Hình III-A.1. Executed notebook: 01_diabetes_deep_learning-cell-04 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [4] trong JupyterLab đã chạy; cell này 
+đọc metadata và metric thật đã lưu sau huấn luyện. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+
+
+=== PAGE 16 ===
+15 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+ 
+Hình III-A.2. Executed notebook: 01_diabetes_deep_learning-cell-06 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [6] trong JupyterLab đã chạy; cell này 
+hiển thị toàn bộ kết quả đánh giá đã lưu của ba mô hình. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+
+
+=== PAGE 17 ===
+16 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+B. Bài toán 2 House Price Prediction 
+1. Thiết lập thực nghiệm hồi quy từng bước 
+Mô hình Accuracy Precision Recall F1 MAE RMSE R² Tham số Giây 
+MLP cơ 
+sở 
+- - - - 2.7815 2.7944 -43.6293 18,881 0.116 
+MLP sâu 
+hơn 
+- - - - 0.4905 0.5487 -0.7204 20,929 0.122 
+MLP 5 
+lớp 
+- - - - 1.7042 1.7300 -16.1053 48,513 0.146 
+ 
+Theo RMSE, MLP sâu hơn tốt nhất với MAE=0.4905, RMSE=0.5487, R²=-0.7204. 
+R² âm là tín hiệu mô hình hiện chưa vượt baseline trung bình. 
+
+=== PAGE 18 ===
+17 
+ 
+Hình III-B.1. Executed notebook: 02_house_price_deep_learning-cell-04 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [4] trong JupyterLab đã chạy; cell này 
+đọc metadata và metric thật đã lưu sau huấn luyện. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+
+
+=== PAGE 19 ===
+18 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+ 
+Hình III-B.2. Executed notebook: 02_house_price_deep_learning-cell-06 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [6] trong JupyterLab đã chạy; cell này 
+hiển thị toàn bộ kết quả đánh giá đã lưu của ba mô hình. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+
+
+=== PAGE 20 ===
+19 
+C. Bài toán 3 Customer Interest Prediction 
+1. Thiết lập thực nghiệm đa lớp từng bước 
+Mô hình Accuracy Precision Recall F1 MAE RMSE R² Tham số Giây 
+MLP cơ 
+sở 
+0.7467 
+(74.67%) 
+0.8512 
+(85.12%) 
+0.5091 
+(50.91%) 
+0.4978 
+(49.78%) 
+- - - 192,581 0.821 
+MLP sâu 
+hơn 
+0.7489 
+(74.89%) 
+0.5615 
+(56.15%) 
+0.5256 
+(52.56%) 
+0.5110 
+(51.10%) 
+- - - 194,501 0.923 
+MLP 5 
+lớp 
+0.7111 
+(71.11%) 
+0.4104 
+(41.04%) 
+0.4822 
+(48.22%) 
+0.4412 
+(44.12%) 
+- - - 395,461 1.153 
+ 
+Theo F1, MLP sâu hơn tốt nhất với accuracy=0.7489, precision=0.5615, 
+recall=0.5256, F1=0.5110. 
+
+=== PAGE 21 ===
+20 
+ 
+Hình III-C.1. Executed notebook: 03_customer_interest_deep_learning-cell-04 
+
+
+=== PAGE 22 ===
+21 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [4] trong JupyterLab đã chạy; cell này 
+đọc metadata và metric thật đã lưu sau huấn luyện. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+
+=== PAGE 23 ===
+22 
+ 
+Hình III-C.2. Executed notebook: 03_customer_interest_deep_learning-cell-06 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [6] trong JupyterLab đã chạy; cell này 
+hiển thị toàn bộ kết quả đánh giá đã lưu của ba mô hình. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+
+
+=== PAGE 24 ===
+23 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+  
+
+=== PAGE 25 ===
+24 
+CHƯƠNG IV. TRỰC QUAN HÓA VÀ PHÂN TÍCH BIỂU DIỄN HỌC 
+ĐƯỢC 
+A. BÀI TOÁN 1: DIABETES PREDICTION 
+1. Phân tích biểu đồ đường cong huấn luyện 
+2. Phân tích Ma trận nhầm lẫn (Confusion Matrix) trên Tập kiểm thử 
+3. So sánh khoa học giữa ba mô hình trong bài toán Diabetes 
+Đường loss phản ánh tối ưu theo epoch; confusion matrix đọc theo nhãn thật ở 
+hàng và nhãn dự đoán ở cột; scatter hồi quy đọc khoảng cách điểm tới đường y=ŷ. 
+Cần đối chiếu trực tiếp cell [5] và metric cell [4]. 
+
+=== PAGE 26 ===
+25 
+ 
+
+
+=== PAGE 27 ===
+26 
+Hình IV-A.1. Executed notebook: 01_diabetes_deep_learning-cell-05-part-01 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [5] trong JupyterLab đã chạy; cell này 
+hiển thị biểu đồ so sánh mô hình, loss, ma trận nhầm lẫn hoặc scatter và sơ đồ kiến trúc. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+
+=== PAGE 28 ===
+27 
+ 
+
+
+=== PAGE 29 ===
+28 
+Hình IV-A.2. Executed notebook: 01_diabetes_deep_learning-cell-05-part-02 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [5] trong JupyterLab đã chạy; cell này 
+hiển thị biểu đồ so sánh mô hình, loss, ma trận nhầm lẫn hoặc scatter và sơ đồ kiến trúc. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+B. BÀI TOÁN 2: HOUSE PRICE 
+1. Phân tích biểu đồ đường cong huấn luyện hồi quy 
+2. Phân tích đồ thị tương quan giữa Giá thực tế và Giá dự đoán (Scatter Plot) 
+3. Lý giải nguyên nhân sai số thực tế (MAE, RMSE) và giải pháp khắc phục 
+Đường loss phản ánh tối ưu theo epoch; confusion matrix đọc theo nhãn thật ở 
+hàng và nhãn dự đoán ở cột; scatter hồi quy đọc khoảng cách điểm tới đường y=ŷ. 
+Cần đối chiếu trực tiếp cell [5] và metric cell [4]. 
+
+=== PAGE 30 ===
+29 
+ 
+
+
+=== PAGE 31 ===
+30 
+Hình IV-B.1. Executed notebook: 02_house_price_deep_learning-cell-05-part-01 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [5] trong JupyterLab đã chạy; cell này 
+hiển thị biểu đồ so sánh mô hình, loss, ma trận nhầm lẫn hoặc scatter và sơ đồ kiến trúc. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+
+=== PAGE 32 ===
+31 
+ 
+
+
+=== PAGE 33 ===
+32 
+Hình IV-B.2. Executed notebook: 02_house_price_deep_learning-cell-05-part-02 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [5] trong JupyterLab đã chạy; cell này 
+hiển thị biểu đồ so sánh mô hình, loss, ma trận nhầm lẫn hoặc scatter và sơ đồ kiến trúc. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+C. BÀI TOÁN 3: CUSTOMER INTEREST PREDICTION 
+1. Phân tích đường cong huấn luyện Cross-Entropy 
+2. Phân tích Ma trận nhầm lẫn đa lớp (Confusion Matrix) 
+3. Thảo luận khoa học về hiệu quả Deep Learning trên dữ liệu khách hàng 
+Đường loss phản ánh tối ưu theo epoch; confusion matrix đọc theo nhãn thật ở 
+hàng và nhãn dự đoán ở cột; scatter hồi quy đọc khoảng cách điểm tới đường y=ŷ. 
+Cần đối chiếu trực tiếp cell [5] và metric cell [4]. 
+
+=== PAGE 34 ===
+33 
+ 
+
+
+=== PAGE 35 ===
+34 
+Hình IV-C.1. Executed notebook: 03_customer_interest_deep_learning-cell-05-part-01 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [5] trong JupyterLab đã chạy; cell này 
+hiển thị biểu đồ so sánh mô hình, loss, ma trận nhầm lẫn hoặc scatter và sơ đồ kiến trúc. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+
+=== PAGE 36 ===
+35 
+ 
+
+
+=== PAGE 37 ===
+36 
+Hình IV-C.2. Executed notebook: 03_customer_interest_deep_learning-cell-05-part-02 
+Nguồn và cell liên quan: ảnh được chụp trực tiếp riêng Cell [5] trong JupyterLab đã chạy; cell này 
+hiển thị biểu đồ so sánh mô hình, loss, ma trận nhầm lẫn hoặc scatter và sơ đồ kiến trúc. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+  
+
+=== PAGE 38 ===
+37 
+CHƯƠNG V. TỔNG KẾT VÀ ĐÁNH GIÁ TOÀN DIỆN 
+1. Tổng kết kết quả thực nghiệm qua 3 bài toán nghiên cứu 
+Bài toán Loại Input Tham số Thời gian train 
+Dự đoán bệnh tiểu 
+đường 
+binary 76 20,737 0.673s 
+Dự đoán giá nhà regression 293 48,513 0.146s 
+Phân loại mức độ quan 
+tâm khách hàng 
+multiclass 3003 395,461 1.153s 
+ 
+2. Đúc kết các quy luật khoa học về Mạng nơ-ron sâu (Core Technical Insights) 
+Độ sâu chỉ hữu ích khi representation, loss và dữ liệu phù hợp. Accuracy phải đọc 
+cùng F1/recall; hồi quy phải đọc MAE/RMSE/R²; số tham số phải đọc cùng thời 
+gian train và validation loss. 
+3. Hạn chế của hệ thống và Hướng phát triển tiếp theo 
+Protocol hiện dùng một seed và tám epoch. Có thể mở rộng bằng early stopping, 
+class weighting, scheduler, regularization và nhiều lần chia dữ liệu. 
+ 
+Hình V.1. Responsive demo: desktop-customer_interest 
+Nguồn: ảnh chụp trực tiếp giao diện Flask đang chạy ở viewport desktop hoặc responsive mobile. 
+Ảnh này chỉ minh họa bước triển khai, không thay thế metric trên test set. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+
+
+=== PAGE 39 ===
+38 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+ 
+Hình V.2. Responsive demo: desktop-diabetes 
+Nguồn: ảnh chụp trực tiếp giao diện Flask đang chạy ở viewport desktop hoặc responsive mobile. 
+Ảnh này chỉ minh họa bước triển khai, không thay thế metric trên test set. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+
+
+=== PAGE 40 ===
+39 
+ 
+Hình V.3. Responsive demo: desktop-house_price 
+Nguồn: ảnh chụp trực tiếp giao diện Flask đang chạy ở viewport desktop hoặc responsive mobile. 
+Ảnh này chỉ minh họa bước triển khai, không thay thế metric trên test set. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+
+
+=== PAGE 41 ===
+40 
+ 
+
+
+=== PAGE 42 ===
+41 
+Hình V.4. Responsive demo: mobile-customer_interest 
+Nguồn: ảnh chụp trực tiếp giao diện Flask đang chạy ở viewport desktop hoặc responsive mobile. 
+Ảnh này chỉ minh họa bước triển khai, không thay thế metric trên test set. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+
+=== PAGE 43 ===
+42 
+ 
+
+
+=== PAGE 44 ===
+43 
+Hình V.5. Responsive demo: mobile-diabetes 
+Nguồn: ảnh chụp trực tiếp giao diện Flask đang chạy ở viewport desktop hoặc responsive mobile. 
+Ảnh này chỉ minh họa bước triển khai, không thay thế metric trên test set. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 
+
+=== PAGE 45 ===
+44 
+ 
+
+
+=== PAGE 46 ===
+45 
+Hình V.6. Responsive demo: mobile-house_price 
+Nguồn: ảnh chụp trực tiếp giao diện Flask đang chạy ở viewport desktop hoặc responsive mobile. 
+Ảnh này chỉ minh họa bước triển khai, không thay thế metric trên test set. 
+Cách đọc: Đọc từ phần tiêu đề notebook xuống execution count, mã lệnh, output; với biểu đồ đọc tên 
+trục, thang đo, chú giải và xu hướng giữa các epoch hoặc nhóm. 
+Quan sát: Ảnh cho thấy cell đã được kernel thực thi và output được sinh từ artifact thật của bài toán, 
+không phải ảnh code dựng riêng. 
+Giải thích chi tiết: Đối chiếu giá trị output với metadata.json và results.json. Nếu train loss giảm 
+nhưng validation loss tăng, mô hình có dấu hiệu overfitting; confusion matrix phải đọc theo từng lớp; 
+hồi quy cần đọc đồng thời MAE, RMSE và R². 
+Giới hạn diễn giải: một lần chia dữ liệu và seed 42 chưa đủ để khẳng định mô hình tổng quát tối ưu. 
+Kết quả trong ảnh chỉ đại diện cho protocol, test set và artifact đã lưu của lần chạy này. 

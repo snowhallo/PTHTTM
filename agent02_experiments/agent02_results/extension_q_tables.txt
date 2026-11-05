@@ -1,0 +1,17 @@
+=== EXTENSION A: SIMULTANEOUS RL (AGENT 1) ===
+State=(0, 0) | Q0=228.136448 | Q1=192.993939 | Greedy=0
+State=(0, 1) | Q0=148.893819 | Q1=183.703504 | Greedy=1
+State=(1, 0) | Q0=250.507714 | Q1=229.142160 | Greedy=0
+State=(1, 1) | Q0=252.069718 | Q1=206.504079 | Greedy=0
+
+=== EXTENSION B: AGGRESSIVE OPPONENT (RL AGENT) ===
+State=(0, 0) | Q0=183.060135 | Q1=158.877585 | Greedy=0
+State=(0, 1) | Q0=189.135249 | Q1=144.165958 | Greedy=0
+State=(1, 0) | Q0=207.432934 | Q1=172.462514 | Greedy=0
+State=(1, 1) | Q0=215.872141 | Q1=189.849158 | Greedy=0
+
+=== EXTENSION C: INVENTORY HOLDING COST (RL AGENT) ===
+State=(0, 0) | Q0=157.316286 | Q1=122.786070 | Greedy=0
+State=(0, 1) | Q0=142.058351 | Q1=118.368145 | Greedy=0
+State=(1, 0) | Q0=194.130179 | Q1=168.747974 | Greedy=0
+State=(1, 1) | Q0=207.214202 | Q1=162.188701 | Greedy=0
