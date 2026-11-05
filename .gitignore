@@ -1,26 +1,24 @@
-# Byte-compiled / optimized / DLL files
+# 1. Ignore everything in the directory by default
+/*
+
+# 2. Whitelist only demo web application and its dependencies
+!/.gitignore
+!/README.md
+!/requirements.txt
+!/demo_web_deepgraph/
+!/demo_web_deepgraph/**
+!/data/
+
+# 3. Inside data/, ignore everything except diabetes_100k.csv
+data/*
+!data/diabetes_100k.csv
+
+# 4. Ignore Python cache and OS artifacts inside demo
 __pycache__/
 *.py[cod]
 *$py.class
-
-# Caches and checkpoints
 .ipynb_checkpoints/
-.pytest_cache/
 .streamlit_cache/
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-
-# Logs and OS files
-*.log
 .DS_Store
 Thumbs.db
-desktop.ini
-
-# Microsoft Office temporary lock files
-~$*
-*.tmp
+*.log

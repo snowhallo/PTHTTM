@@ -98,61 +98,39 @@ Hệ thống được thiết kế theo quy trình vận hành bệnh viện th�
 
 ---
 
-## 5. HƯỚNG DẪN CHẠY CODE THỰC NGHIỆM ĐỒ THỊ & JUPYTER NOTEBOOK
-
-Nếu cần trình diễn quá trình xây dựng đồ thị, đo lường Homophily và xuất đồ thị PyTorch Geometric:
-
-### Chạy qua Terminal:
-```bash
-python demo_tv3_diabetes_graph.py
-```
-- Tự động nạp dữ liệu 100.000 bản ghi.
-- Thực hiện Stratified Train/Test Split chống Data Leakage.
-- So sánh Phương án 1 (Baseline k-NN) và Phương án 2 (Clinical-Weighted k-NN).
-- Chứng minh độ thuần nhất nhãn (Homophily Ratio) đạt **94.11%**.
-- Xuất tệp đồ thị nhị phân `data/patient_graph_tv3_demo.pt`.
-
-### Chạy qua Jupyter Notebook:
-Mở file `demo_tv3_diabetes_graph.ipynb` trên VS Code hoặc chạy:
-```bash
-jupyter lab demo_tv3_diabetes_graph.ipynb
-```
-(Notebook đã được chạy sẵn và lưu đầy đủ kết quả output của từng cell).
-
----
-
-## 6. CẤU TRÚC THƯ MỤC CHÍNH
+## 5. CẤU TRÚC THƯ MỤC DỰ ÁN
 
 ```text
-phat_trien_he_thong_thong_minh/
+PTHTTM/
 │
 ├── demo_web_deepgraph/              # Ứng dụng Web Lâm Sàng GlucoGraph CDSS
-│   ├── app.py                       # File ứng dụng Streamlit chính
-│   ├── config.py                    # Cấu hình bảng màu, chuẩn ADA 2024, phác đồ
-│   ├── data_loader.py               # Mô-đun nạp & xử lý dữ liệu 100k hồ sơ
-│   ├── utils_graph.py               # Thuật toán k-NN, Laplacian, vẽ đồ thị Plotly
+│   ├── app.py                       # File ứng dụng Streamlit chính (UI & Điều hướng)
+│   ├── config.py                    # Cấu hình bảng màu y tế, chuẩn ADA 2024, phác đồ
+│   ├── data_loader.py               # Mô-đun nạp & xử lý dữ liệu hồ sơ lâm sàng
+│   ├── utils_graph.py               # Thuật toán k-NN có trọng số y khoa, vẽ mạng Plotly
 │   ├── run_demo.bat                 # Script chạy nhanh 1-click trên Windows
-│   ├── requirements.txt             # Danh sách thư viện phụ thuộc của web app
-│   ├── .streamlit/config.toml       # Cấu hình giao diện Streamlit
+│   ├── requirements.txt             # Danh sách thư viện phụ thuộc của ứng dụng
+│   ├── .streamlit/config.toml       # Cấu hình giao diện Streamlit (Light Medical Theme)
+│   ├── data/
+│   │   └── diabetes_100k.csv        # Dữ liệu 100.000 hồ sơ bệnh nhân đi kèm
 │   └── modules/
-│       ├── view_dashboard.py        # Phân hệ 1: Giám sát Dịch tễ
-│       ├── view_consultation.py     # Phân hệ 2: Buồng Khám & Động cơ GAT
-│       ├── view_treatment.py        # Phân hệ 3: Phác đồ ADA 2024 & Phiếu in
-│       └── view_records.py          # Phân hệ 4: Quản lý Bệnh án EMR 100k
+│       ├── view_dashboard.py        # Phân hệ 1: Giám sát Dịch tễ (Dashboard)
+│       ├── view_consultation.py     # Phân hệ 2: Buồng Khám & Động cơ chẩn đoán GAT
+│       ├── view_treatment.py        # Phân hệ 3: Phác đồ can thiệp ADA 2024 & Phiếu in
+│       └── view_records.py          # Phân hệ 4: Quản lý Hồ sơ Bệnh án EMR 100k
 │
 ├── data/
-│   └── diabetes_100k.csv            # Cơ sở dữ liệu 100.000 hồ sơ bệnh nhân
+│   └── diabetes_100k.csv            # Cơ sở dữ liệu 100.000 hồ sơ bệnh nhân (Root)
 │
-├── demo_tv3_diabetes_graph.py       # Script thực nghiệm đồ thị Python
-├── demo_tv3_diabetes_graph.ipynb    # Jupyter Notebook thực nghiệm đồ thị
-├── HUONG_DAN_CHAY_DEMO_CODE.md      # Tài liệu hướng dẫn thuyết trình demo
-├── requirements.txt                 # File phụ thuộc toàn bộ project
-└── README.md                        # Tài liệu hướng dẫn tổng quan dự án
+├── requirements.txt                 # File danh sách thư viện toàn bộ dự án
+├── .gitignore                       # Cấu hình loại trừ file rác, file tạm
+└── README.md                        # Tài liệu hướng dẫn sử dụng & vận hành dự án
 ```
 
 ---
 
-## 7. BẢN QUYỀN & THÔNG TIN HỌC PHẦN
+## 6. BẢN QUYỀN & THÔNG TIN HỌC PHẦN
 - **Môn học:** Phát triển Hệ thống Thông minh (PTHTTM)
 - **Đơn vị:** Học viện Công nghệ Bưu chính Viễn thông (PTIT)
-- **Tác giả:** Nhóm sinh viên thực hiện đồ án
+- **Chủ đề nghiên cứu:** Ứng dụng Mạng nơ-ron Đồ thị (Deep Graph Learning) trong Chẩn đoán & Hỗ trợ Quyết định Lâm sàng Đái tháo đường Type 2.
+

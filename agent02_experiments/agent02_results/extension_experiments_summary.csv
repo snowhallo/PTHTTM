@@ -1,9 +1,0 @@
-Experiment,Agent,Mean_Reward_Per_Step,Discount_Action_Rate
-Baseline (RL vs Fixed Rule),RL Agent,35.1275,0.0
-Baseline (RL vs Fixed Rule),Rule-based Agent,34.9685,0.0
-Extension A (Simultaneous RL),Agent 1 (RL),34.9055,0.0
-Extension A (Simultaneous RL),Agent 2 (RL),34.9865,0.0
-Extension B (Aggressive Opponent),RL Agent,28.799,0.0
-Extension B (Aggressive Opponent),Aggressive Opp (p=0.8),29.1739,0.8018
-Extension C (Inventory Cost),RL Agent,25.77975,0.0
-Extension C (Inventory Cost),Rule-based Opponent,25.78285,0.0
